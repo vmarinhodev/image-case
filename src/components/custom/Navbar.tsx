@@ -36,6 +36,9 @@ export default async function Navbar() {
                     <Link href="/favourites">Favourites</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
+                    <Link href="/import">Import</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
                     <form action={signOut}>
                         <button>Logout</button>
                     </form>

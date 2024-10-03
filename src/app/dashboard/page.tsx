@@ -1,3 +1,4 @@
+import Gallery from "@/components/custom/Gallery";
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 
@@ -11,5 +12,9 @@ export default async function Dashboard() {
     if (!user) {
         return redirect('/login');
     }
-    return <p>Dashboard</p>
+    return (
+        <>
+            <Gallery />
+        </>
+    )
 };
