@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { convertBlobUrlToFile } from "@/utils/convertFiles";
 import { uploadImage } from "@/utils/supabase/storage/client";
+import { toast } from "@/hooks/use-toast";
 
 export default function ImageUploader() {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -33,14 +34,22 @@ export default function ImageUploader() {
                 });
                 if (error) {
                     console.log(error)
+                    toast({
+                        variant: 'destructive',
+                        title: 'Image upload failed',
+                        description: 'Your images have not been uploaded',
+                    })
                     return;
                 }
 
                 urls.push(imageUrl);
             }
-
             console.log('urls', urls)
             setImageUrls([]);
+            toast({
+                title: 'Images uploaded',
+                description: 'Your images have been uploaded',
+            })
         })
     };
 

@@ -32,10 +32,13 @@ export default async function Navbar() {
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                     <Link href="/favourites">Favourites</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
                     <Link href="/import">Import</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
