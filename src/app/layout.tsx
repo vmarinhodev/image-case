@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
-import UploaderDialog from "@/components/custom/forms/UploaderDialog";
+import ImageUploaderForm from "@/components/custom/forms/ImageUploaderForm";
+import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,14 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+  <ReactQueryClientProvider>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        <UploaderDialog />
+        {/* <ImageUploaderForm/> */}
         {children}
+        
       </body>
     </html>
+    </ReactQueryClientProvider>
   );
 }
