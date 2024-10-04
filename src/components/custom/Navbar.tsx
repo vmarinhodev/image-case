@@ -12,6 +12,7 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/app/login/actions";
+import UploadButton from "./UploadButton";
 
 
 export default async function Navbar() {
@@ -32,8 +33,14 @@ export default async function Navbar() {
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                     <Link href="/favourites">Favourites</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <UploadButton />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                     <form action={signOut}>
