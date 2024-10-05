@@ -16,14 +16,15 @@ import '@uppy/dashboard/dist/style.min.css';
 import Tus from '@uppy/tus';
 import { Button } from "@/components/ui/button";
 import useUser from "@/app/hooks/useUser";
-import { createClient } from "@/utils/supabase/server";
+import { supabaseBrowser } from "@/utils/supabase/browser";
 
 export default function ImageUploaderForm() {
     const { data: user } = useUser();
-    const supabase = createClient();
 
     const onBeforeRequest = async (req: any) => {
+        const supabase = supabaseBrowser();
         const { data } = await supabase.auth.getSession();
+        console.log("supabasedata", data)
         req.setHeader('Authorization', `Bearer ${data.session?.access_token}`);
     };
 
@@ -55,6 +56,7 @@ export default function ImageUploaderForm() {
         uppy.setFileMeta(uppy.getFiles()[0].id, {
             objectName: user?.id + "/" + uppy.getFiles()[0].name
         })
+        console.log("uppy", uppy.getFiles()[0].name)
     }
 
     return (

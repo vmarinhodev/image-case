@@ -1,5 +1,8 @@
 'use client';
 
+import { supabaseBrowser } from "@/utils/supabase/browser";
+import { useQuery } from "@tanstack/react-query";
+
 const initUser = {
     created_at: "",
     display_name: "",
@@ -7,23 +10,20 @@ const initUser = {
     id: "",
     image_url: "",
 }
-
-import { createClient } from "@/utils/supabase/client";
-import { useQuery } from "@tanstack/react-query";
-
 export default function useUser() {
 
     return useQuery ({
         queryKey: ['user'],
         queryFn: async () => {
-            const supabase = createClient();
-            const { data } = await supabase.auth.getUser();
-            if (data.user) {
+            const supabase = supabaseBrowser();
+            const { data } = await supabase.auth.getSession();
+            console.log('data', data.session?.user)
+            if (data.session?.user) {
                 //fetch user data
                 const{ data: user } = await supabase
-                    .from('profiles')
+                    .from('imagecase')
                     .select('*')
-                    .eq('id', data.user.id)
+                    .eq('id', data.session.user.id)
                     .single();
 
                     return user;

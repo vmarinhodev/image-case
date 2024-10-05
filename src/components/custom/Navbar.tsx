@@ -41,9 +41,9 @@ export default async function Navbar() {
                     <DropdownMenuItem asChild>
                         <Link href="/favourites">Favourites</Link>
                     </DropdownMenuItem>
-                    {/* <DropdownMenuItem>
+                    <DropdownMenuItem>
                         <UploadButton />
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
                     <DropdownMenuItem>
                         <form action={signOut}>
                             <button>Logout</button>
