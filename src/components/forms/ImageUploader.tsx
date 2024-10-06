@@ -10,6 +10,8 @@ import { toast } from "@/hooks/use-toast";
 export default function ImageUploader() {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const imageInputRef = useRef<HTMLInputElement>(null);
+    
+
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
