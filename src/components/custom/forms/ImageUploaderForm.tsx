@@ -25,7 +25,8 @@ import '@uppy/dashboard/dist/style.min.css';
 export default function ImageUploaderForm() {
     const { data: user } = useUser();
     const supabase = supabaseBrowser();
-    const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const inputTitleRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const inputDescriptionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
 
     // Before Request
@@ -69,19 +70,19 @@ export default function ImageUploaderForm() {
 
             // After upload Image upload text
             uppy.upload().then(async () => {
-                const { description, title } = inputRef.current.value;
-                if (description.trim()) {
-                    console.log("desc", inputRef.current.value)
+                const title = inputTitleRef.current.value;
+                const description = inputDescriptionRef.current.value;
+                if (description && title) {
                     const { error } = await supabase
                         .from("posts")
-                        .update({ description: description, title: title })
+                        .update({description: description, title: title})
                         .eq("id", randomUUID)
 
                     if (error) {
                         // toast.error("Fail to updated description");
                         console.log('error from upload', error);
                     }
-                    console.log("updated description", inputRef.current.value)
+                    console.log("updated description", inputTitleRef.current.value)
                 }
             });
 
@@ -111,12 +112,12 @@ export default function ImageUploaderForm() {
                             hideUploadButton
                         />
                         <Input
-                            placeholder="Image Title"
-                            ref={inputRef}
+                            placeholder="Image title"
+                            ref={inputTitleRef}
                         />
                         <Input
                             placeholder="Image description"
-                            ref={inputRef}
+                            ref={inputDescriptionRef}
                         />
                         <Button
                             className="w-full bg-green-700"

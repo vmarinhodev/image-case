@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
 import ImageUploaderForm from "@/components/custom/forms/ImageUploaderForm";
 import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
-import { Toaster } from "sonner";
+// import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,7 +36,6 @@ export default function RootLayout({
           <Navbar />
           <ImageUploaderForm />
           {children}
-          {/* <Toaster /> */}
         </body>
       </html>
     </ReactQueryClientProvider>
