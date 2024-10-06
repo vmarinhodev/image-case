@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
 import ImageUploaderForm from "@/components/custom/forms/ImageUploaderForm";
 import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,20 +25,20 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-  <ReactQueryClientProvider>
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        {/* <ImageUploaderForm/> */}
-        {children}
-        
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Navbar />
+          <ImageUploaderForm />
+          {children}
+          {/* <Toaster /> */}
+        </body>
+      </html>
     </ReactQueryClientProvider>
   );
 }

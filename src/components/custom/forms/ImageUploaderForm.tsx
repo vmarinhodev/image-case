@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from "react";
+import { supabaseBrowser } from "@/utils/supabase/browser";
+import React, { useRef, useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -9,22 +10,27 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import Uppy from '@uppy/core';
+import { Switch } from "@/components/ui/switch"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox"
 import { Dashboard } from '@uppy/react';
+import Uppy from '@uppy/core';
+import Tus from '@uppy/tus';
+import useUser from "@/app/hooks/useUser";
+import { toast } from "sonner";
 import '@uppy/core/dist/style.min.css';
 import '@uppy/dashboard/dist/style.min.css';
-import Tus from '@uppy/tus';
-import { Button } from "@/components/ui/button";
-import useUser from "@/app/hooks/useUser";
-import { supabaseBrowser } from "@/utils/supabase/browser";
 
 export default function ImageUploaderForm() {
     const { data: user } = useUser();
+    const supabase = supabaseBrowser();
+    const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
+
+    // Before Request
     const onBeforeRequest = async (req: any) => {
-        const supabase = supabaseBrowser();
         const { data } = await supabase.auth.getSession();
-        console.log("supabasedata", data)
         req.setHeader('Authorization', `Bearer ${data.session?.access_token}`);
     };
 
@@ -52,12 +58,38 @@ export default function ImageUploaderForm() {
         });
     });
 
+    // Handle file upload to Supabase Storage
     const handleUpload = () => {
-        uppy.setFileMeta(uppy.getFiles()[0].id, {
-            objectName: user?.id + "/" + uppy.getFiles()[0].name
-        })
-        console.log("uppy", uppy.getFiles()[0].name)
-    }
+        if (uppy.getFiles().length !== 0) {
+            const randomUUID = crypto.randomUUID();
+
+            uppy.setFileMeta(uppy.getFiles()[0].id, {
+                objectName: user?.id + "/" + randomUUID + "/" + uppy.getFiles()[0].name
+            });
+
+            // After upload Image upload text
+            uppy.upload().then(async () => {
+                const { description, title } = inputRef.current.value;
+                if (description.trim()) {
+                    console.log("desc", inputRef.current.value)
+                    const { error } = await supabase
+                        .from("posts")
+                        .update({ description: description, title: title })
+                        .eq("id", randomUUID)
+
+                    if (error) {
+                        // toast.error("Fail to updated description");
+                        console.log('error from upload', error);
+                    }
+                    console.log("updated description", inputRef.current.value)
+                }
+            });
+
+        } else {
+
+            console.log("Please select an image")
+        };
+    };
 
     return (
         <div>
@@ -78,6 +110,14 @@ export default function ImageUploaderForm() {
                             className="w-full"
                             hideUploadButton
                         />
+                        <Input
+                            placeholder="Image Title"
+                            ref={inputRef}
+                        />
+                        <Input
+                            placeholder="Image description"
+                            ref={inputRef}
+                        />
                         <Button
                             className="w-full bg-green-700"
                             onClick={handleUpload}
@@ -89,5 +129,5 @@ export default function ImageUploaderForm() {
             </Dialog>
 
         </div>
-    )
+    );
 }

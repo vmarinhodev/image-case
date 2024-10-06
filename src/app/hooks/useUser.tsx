@@ -17,15 +17,13 @@ export default function useUser() {
         queryFn: async () => {
             const supabase = supabaseBrowser();
             const { data } = await supabase.auth.getSession();
-            console.log('data', data.session?.user)
             if (data.session?.user) {
                 //fetch user data
                 const{ data: user } = await supabase
-                    .from('imagecase')
+                    .from('profiles')
                     .select('*')
                     .eq('id', data.session.user.id)
                     .single();
-
                     return user;
             }
             return initUser;

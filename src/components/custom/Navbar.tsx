@@ -8,7 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { createClient } from "@/utils/supabase/server";
+import { supabaseServer } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/app/login/actions";
@@ -16,7 +16,7 @@ import UploadButton from "./UploadButton";
 
 
 export default async function Navbar() {
-    const supabase = await createClient();
+    const supabase = await supabaseServer();
 
     const { data: { user }, } = await supabase.auth.getUser();
 

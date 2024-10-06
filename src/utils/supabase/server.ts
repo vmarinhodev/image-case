@@ -1,7 +1,7 @@
 import { createServerClient} from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export function createClient() {
+export function supabaseServer() {
   const cookieStore = cookies();
 
   return createServerClient(
@@ -23,6 +23,7 @@ export function createClient() {
             // user sessions at once.
           }
         },
+        
       },
     }
   )

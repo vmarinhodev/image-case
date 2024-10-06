@@ -10,14 +10,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { emailLogin, signup } from "./actions";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { supabaseServer } from "@/utils/supabase/server";
 
 export default async function Login({
   searchParams,
 }: {
   searchParams: { message: string };
 }) {
-  const supabase = await createClient();
+  const supabase = await supabaseServer();
 
   const {
     data: { user },

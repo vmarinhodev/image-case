@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import ImageUploaderForm from "@/components/custom/forms/ImageUploaderForm";
 
