@@ -24,6 +24,8 @@ body {
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
+    --tertiary: 102 100% 28%;
+    --tertiary-foreground: 102 100% 28%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
@@ -51,6 +53,8 @@ body {
     --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
+    --tertiary: 102 100% 28%;
+    --tertiary-foreground: 102 100% 28%;
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
     --accent: 0 0% 14.9%;
@@ -75,4 +79,10 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+.uppy-Dashboard-inner {
+  width: auto !important;
+  height: 25rem !important;
 }

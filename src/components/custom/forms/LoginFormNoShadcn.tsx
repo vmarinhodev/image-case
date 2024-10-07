@@ -1,3 +1,6 @@
+'use client'
+
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,24 +12,38 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { emailLogin, signup } from "./actions";
-import { redirect } from "next/navigation";
-import { supabaseServer } from "@/utils/supabase/server";
 
-export default async function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
-  const supabase = await supabaseServer();
+type FormData = {
+  email: string;
+  password: string;
+};
+type Errors = {
+  email?: string;
+  password?: string;
+};
+export default function Form() {
+  const [formData, setFormData] = useState<FormData>({ email: "", password: "" });
+  const [errors, setErrors] = useState<Errors>({});
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (user) {
-    return redirect("/dashboard");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   }
 
+  const handleSubmit = (e: ReactFormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  }
+
+  const { error, data } = validateFormData(schemaLogin, formData);
+
+  if (errors) {
+    setErrors(errors)
+  } else {
+    setErrors({});
+    console.log('Form data is valid:', data);
+  }
   return (
     <section className="h-[calc(100vh-57px)] flex justify-center items-center">
       <Card className="mx-auto max-w-sm">
@@ -41,9 +58,10 @@ export default async function Login({
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
+                value={formData.email}
                 id="email"
                 name="email"
-                type="email"
+                type="text"
                 placeholder="m@example.com"
                 required
               />
@@ -78,5 +96,5 @@ export default async function Login({
         </CardContent>
       </Card>
     </section>
-  );
+  )
 }
