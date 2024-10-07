@@ -1,6 +1,6 @@
 import { supabaseServer } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
-
+import Image from "next/image"
 export default async function Dashboard() {
     const supabase = supabaseServer();
     const { data: { user }, } = await supabase.auth.getUser();
@@ -11,7 +11,7 @@ export default async function Dashboard() {
     }
 
     // fetch user posts by match
-    const {data: userMatch }= await supabase
+    const { data: userMatch } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
@@ -26,21 +26,28 @@ export default async function Dashboard() {
             ...post,
         }
     })
+    
 
 
     return (
         <main className="container mx-auto py-6">
             <p>Dashboard</p>
-            {posts?.map((post) => {
-                return (
-                    <div key={post.id}>
-                        <div className="w-96">
-                            <h1>@{post.description}</h1>
+            <div className="grid grid-cols-3 gap-6">
+                {posts?.map((post) => {
+                    return (
+                        <div key={post.id} className="rounded-md w-full space-y-5 relative">
+                            <div className="w-full h-96 relative rounded-md border">
+                                <Image 
+                                    src={imageUrlHost + post.image}
+                                    alt={post.description || ""}
+                                    fill
+                                />
+                            </div>
+                            <h1>{post.description}</h1>
                         </div>
-                    </div>
-                )
-            })}
-            {JSON.stringify({data: userMatch})}
+                    )
+                })}
+            </div>
         </main>
     )
 };
