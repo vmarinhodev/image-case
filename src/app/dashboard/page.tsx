@@ -1,6 +1,8 @@
+
 import { supabaseServer } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 import Image from "next/image"
+
 export default async function Dashboard() {
     const supabase = supabaseServer();
     const { data: { user }, } = await supabase.auth.getUser();
@@ -21,13 +23,12 @@ export default async function Dashboard() {
         .select('*');
 
     const posts = data?.map((post) => {
+        // console.log('post', post)
         return {
-            image: `${imageUrlHost}${post.user_id}/${post.id}/${post.name}`,
+            postImage: `${imageUrlHost}/${post.user_id}/${post.id}/${post.image}`,
             ...post,
         }
     })
-    
-
 
     return (
         <main className="container mx-auto py-6">
@@ -37,10 +38,11 @@ export default async function Dashboard() {
                     return (
                         <div key={post.id} className="rounded-md w-full space-y-5 relative">
                             <div className="w-full h-96 relative rounded-md border">
-                                <Image 
-                                    src={imageUrlHost + post.image}
+                                <Image
+                                    src={post.postImage}
                                     alt={post.description || ""}
                                     fill
+                                    objectFit="cover"
                                 />
                             </div>
                             <h1>{post.description}</h1>
