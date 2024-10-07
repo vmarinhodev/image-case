@@ -10,10 +10,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox"
 import { Dashboard } from '@uppy/react';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
@@ -21,12 +19,14 @@ import useUser from "@/app/hooks/useUser";
 import { toast } from "sonner";
 import '@uppy/core/dist/style.min.css';
 import '@uppy/dashboard/dist/style.min.css';
+import { useRouter } from "next/navigation";
 
 export default function ImageUploaderForm() {
     const { data: user } = useUser();
     const supabase = supabaseBrowser();
     const inputTitleRef = useRef() as React.MutableRefObject<HTMLInputElement>;
     const inputDescriptionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const router = useRouter()
 
 
     // Before Request
@@ -57,7 +57,16 @@ export default function ImageUploaderForm() {
             bucketName: 'image-upload-miyamage',
             contentType: file.type,
         });
+        if (inputTitleRef.current) {
+            inputTitleRef.current.value = "";
+        }
     });
+
+    uppy.on("upload-success", () => {
+        uppy.cancelAll();
+        document.getElementById("trigger-close")?.click();
+        router.refresh();
+    })
 
     // Handle file upload to Supabase Storage
     const handleUpload = () => {
@@ -75,60 +84,55 @@ export default function ImageUploaderForm() {
                 if (description && title) {
                     const { error } = await supabase
                         .from("posts")
-                        .update({description: description, title: title})
+                        .update({ description: description, title: title })
                         .eq("id", randomUUID)
 
                     if (error) {
-                        // toast.error("Fail to updated description");
-                        console.log('error from upload', error);
+                        toast.error("Fail to updated description");
                     }
-                    console.log("updated description", inputTitleRef.current.value)
                 }
             });
 
         } else {
-
+            toast.warning("Please adding an image");
             console.log("Please select an image")
         };
     };
 
     return (
-        <div>
-            <Dialog>
-                <DialogTrigger asChild>
-                    <button id="upload-trigger"></button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Image Uploader</DialogTitle>
-                        <DialogDescription>
-                            Select an image to upload
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-5">
-                        <Dashboard
-                            uppy={uppy}
-                            className="w-full"
-                            hideUploadButton
-                        />
-                        <Input
-                            placeholder="Image title"
-                            ref={inputTitleRef}
-                        />
-                        <Input
-                            placeholder="Image description"
-                            ref={inputDescriptionRef}
-                        />
-                        <Button
-                            className="w-full bg-green-700"
-                            onClick={handleUpload}
-                        >
-                            Upload
-                        </Button>
-                    </div>
-                </DialogContent>
-            </Dialog>
-
-        </div>
+        <Dialog>
+            <DialogTrigger asChild>
+                <button id="upload-trigger"></button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Image Uploader</DialogTitle>
+                    <DialogDescription>
+                        Select an image to upload
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-5">
+                    <Dashboard
+                        uppy={uppy}
+                        className="w-full"
+                        hideUploadButton
+                    />
+                    <Input
+                        placeholder="Image title"
+                        ref={inputTitleRef}
+                    />
+                    <Input
+                        placeholder="Image description"
+                        ref={inputDescriptionRef}
+                    />
+                    <Button
+                        className="w-full bg-green-700"
+                        onClick={handleUpload}
+                    >
+                        Upload
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }

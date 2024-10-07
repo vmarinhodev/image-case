@@ -20,7 +20,7 @@ export default async function Dashboard() {
 
     const { data } = await supabase
         .from('posts')
-        .select('*');
+        .select('*').order("created_at", {ascending:false});
 
     const posts = data?.map((post) => {
         // console.log('post', post)
@@ -33,16 +33,17 @@ export default async function Dashboard() {
     return (
         <main className="container mx-auto py-6">
             <p>Dashboard</p>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {posts?.map((post) => {
                     return (
-                        <div key={post.id} className="rounded-md w-full space-y-5 relative">
-                            <div className="w-full h-96 relative rounded-md border">
+                        <div key={post.id} className="border rounded-md">
+                            <div className="w-full h-96 relative ">
                                 <Image
                                     src={post.postImage}
                                     alt={post.description || ""}
                                     fill
-                                    objectFit="cover"
+                                    style={{objectFit: 'cover', objectPosition: 'center'}}
+                                    
                                 />
                             </div>
                             <h1>{post.description}</h1>
