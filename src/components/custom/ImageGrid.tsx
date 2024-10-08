@@ -1,71 +1,74 @@
-import { supabaseServer } from "@/utils/supabase/server";
+import { supabaseServer } from "@/utils/supabase/server"
 import Photo from "./Photo";
 
-interface UserProps {
+interface UserInterface {
     id?: string;
 }
 
-interface PhotoProps {
+interface PhotoInterface {
     name: string;
     url: string;
     width: number;
     height: number;
     photoName: string;
     alt: string;
-    user: UserProps;
+    user: UserInterface;
 }
 
 const supabase = supabaseServer();
+async function fetchUserPhotos(user: UserInterface) {
+    if (!user) return [];
 
-async function fetchUserPhotos(user: UserProps): Promise<PhotoProps[]> {
-    if (!user.id) return []; // Check if user.id is defined
-
-    const folderPath = `user_uploads/${user.id}/`;
+    const folderPath = `user_uploads/${user.id}/`
     const { data, error } = await supabase.storage
         .from('photos')
-        .list(folderPath);
+        .list(folderPath)
 
     if (error) {
-        console.log('Error fetching photos', error);
-        return [];
+        console.log('Error fetching photos', error)
+        return
     }
-    return data as PhotoProps[]; // Type assertion
+    return data;
 }
 
-async function getPhotoUrls(photos: PhotoProps[], user: UserProps): Promise<{ url: string; photoName: string }[]> {
+async function getPhotoUrls(photos: PhotoInterface[], user: UserInterface) {
     return Promise.all(photos.map(async (photo) => {
         const { data, error } = await supabase.storage
             .from('photos')
-            .createSignedUrl(`user_uploads/${user.id}/${photo.name}`, 60 * 60);
+            .createSignedUrl(`user_uploads/${user.id}/${photo.name}`, 60 * 60)
         if (error) {
-            console.error('Error generating url', error);
-            return null; // Return null for error case
+            console.error('Error generating url', error)
+            return null
         }
-        return { url: data.signedUrl, photoName: photo.name };
-    })).then((results) => results.filter((url) => url !== null) as { url: string; photoName: string }[]); // Filter out null values
+        return { url: data.signedUrl, photoName: photo.name }
+
+    }))
 }
 
-export default async function ImageGrid(): Promise<JSX.Element | null> {
-    const { data: { user } } = await supabase.auth.getUser();
+export default async function ImageGrid() {
 
-    if (!user) return null; // Return null instead of an empty array
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
     const photos = await fetchUserPhotos(user);
-    const photoObjects = await getPhotoUrls(photos, user);
+    const photoObjects = await getPhotoUrls(photos, user); // eslint-disable-line
 
     return (
         <div className="flex flex-wrap justify-center gap-4">
-            {photoObjects.map((photo) => (
-                photo && (
-                    <Photo
-                        key={photo.photoName}
-                        src={photo.url}
-                        alt={`Photo ${photo.photoName}`}
-                        width={200}
-                        height={200}
-                        photoName={photo.photoName}
-                    />
-                )
-            ))}
+            {
+                photoObjects.map((photo) => (
+                    photo && (
+                        <Photo
+                            key={photo.photoName}
+                            src={photo.url}
+                            alt={`Photo ${photo.photoName}`}
+                            width={200}
+                            height={200}
+                            photoName={photo.photoName}
+                        />
+                    )
+                ))
+            }
         </div>
-    );
+    )
+
 }
