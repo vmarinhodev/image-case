@@ -4,11 +4,6 @@ interface UserProps {
     id?: string;
 }
 
-interface PhotoProps {
-    photos: string[];
-    user: UserProps;
-}
-
 const supabase = supabaseServer();
 async function fetchUserPhotos(user: UserProps) {
     if (!user) return;
