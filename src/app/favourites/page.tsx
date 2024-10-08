@@ -31,6 +31,7 @@ export default async function Favourites() {
     const favouritedPhotos = await fetchFavouritePhotos({ id: user.id });
     return (
         <main className="container mx-auto py-6">
+            <h1>Favourites</h1>
             <div>
                 {favouritedPhotos?.map((photo) => {
                     return (
