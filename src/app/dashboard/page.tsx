@@ -2,6 +2,7 @@
 import { supabaseServer } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 import Image from "next/image"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 export default async function Dashboard() {
     const supabase = supabaseServer();
@@ -20,7 +21,7 @@ export default async function Dashboard() {
 
     const { data } = await supabase
         .from('posts')
-        .select('*').order("created_at", {ascending:false});
+        .select('*').order("created_at", { ascending: false });
 
     const posts = data?.map((post) => {
         // console.log('post', post)
@@ -37,14 +38,24 @@ export default async function Dashboard() {
                 {posts?.map((post) => {
                     return (
                         <div key={post.id} className="border rounded-md">
-                            <div className="w-full h-96 relative ">
-                                <Image
-                                    src={post.postImage}
-                                    alt={post.description || ""}
-                                    fill
-                                    style={{objectFit: 'cover', objectPosition: 'center'}}
-                                    
-                                />
+                            <div className="w-full h-96 relative " >
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Image
+                                            key={post.id}
+                                            src={post.postImage}
+                                            alt={post.description || ""}
+                                            fill
+                                            style={{ objectFit: 'cover', objectPosition: 'center' }}
+                                            loading="lazy"
+                                        />
+                                    </DialogTrigger>
+                                    <DialogContent className="max-w-7xl border-0 bg-transparent p-0">
+                                        <div className="relative h-[calc(100vh-60px)] w-full overflow-clip rounded-md  bg-black bg-opacity-75 shadow-md">
+                                            <Image src={post.postImage} fill alt={post.description || ''} className="h-full w-full object-contain" />
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                             <h1>{post.description}</h1>
                         </div>
