@@ -1,8 +1,11 @@
 import { supabaseServer } from "@/utils/supabase/server"
 import Photo from "./Photo";
+interface UserProps {
+    id?: string;
+}
 
 const supabase = supabaseServer();
-async function fetchUserPhotos(user) {
+async function fetchUserPhotos(user: UserProps) {
     if (!user) return;
 
     const folderPath = `user_uploads/${user.id}/`
