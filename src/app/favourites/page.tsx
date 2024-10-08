@@ -1,13 +1,13 @@
-
 import { supabaseServer } from "@/utils/supabase/server"
-
+import Photo from "@/components/custom/Photo";
 
 interface UserProps {
     id?: string;
 }
 
-const supabase = supabaseServer();
+
 async function fetchFavouritePhotos(user: UserProps) {
+    const supabase = supabaseServer();
     
     const { data, error } = await supabase
         .from('favourites')
@@ -23,6 +23,7 @@ async function fetchFavouritePhotos(user: UserProps) {
 }
 
 export default async function Favourites() {
+    const supabase = supabaseServer();
     const { data: { user }, } = await supabase.auth.getUser();
     if (!user) {
         return <div>User is not authenticated</div>
@@ -33,12 +34,19 @@ export default async function Favourites() {
             <div>
                 {favouritedPhotos?.map((photo) => {
                     return (
-                        <div key={photo.id}>
-
-                        </div>
+                        photo && (
+                            <Photo
+                                key={photo.photoName}
+                                src={photo.url}
+                                alt={`Photo ${photo.photoName}`}
+                                width={200}
+                                height={200}
+                                photoName={photo.photoName}
+                            />
+                        )
                     )
                 })}
             </div>
         </main>
-    )
-}
+    );
+};

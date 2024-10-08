@@ -35,7 +35,7 @@ export default function PhotoUploader() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({path: '/photos'})
+                body: JSON.stringify({path: '/dashboard'})
             })
             router.refresh();
 

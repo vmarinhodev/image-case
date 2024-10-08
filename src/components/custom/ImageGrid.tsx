@@ -12,8 +12,9 @@ interface SignedPhotoUrl {
 }
 
 
-const supabase = supabaseServer();
+
 async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
+    const supabase = supabaseServer();
     if (!user) return null;
 
     const folderPath = `user_uploads/${user.id}/`
@@ -29,7 +30,7 @@ async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
 }
 
 async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(SignedPhotoUrl | null)[]> {
-    
+    const supabase = supabaseServer();
     return Promise.all(photos.map(async (photo) => {
         const { data, error } = await supabase.storage
             .from('photos')
@@ -44,6 +45,7 @@ async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(Sign
 }
 
 export default async function ImageGrid() {
+    const supabase = supabaseServer();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return <div>No user found</div>
 
