@@ -3,7 +3,7 @@ import { supabaseServer } from "@/utils/supabase/server"
 
 
 interface UserProps {
-    id: number;
+    id?: string;
 }
 
 const supabase = supabaseServer();
@@ -24,7 +24,10 @@ async function fetchFavouritePhotos(user: UserProps) {
 
 export default async function Favourites() {
     const { data: { user }, } = await supabase.auth.getUser();
-    const favouritedPhotos = await fetchFavouritePhotos(user);
+    if (!user) {
+        return <div>User is not authenticated</div>
+    }
+    const favouritedPhotos = await fetchFavouritePhotos({ id: user.id });
     return (
         <main className="container mx-auto py-6">
             <div>
