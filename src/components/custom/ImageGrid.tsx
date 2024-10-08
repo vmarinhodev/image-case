@@ -4,6 +4,11 @@ interface UserProps {
     id?: string;
 }
 
+interface PhotoProps {
+    photos: string[];
+    user: UserProps;
+}
+
 const supabase = supabaseServer();
 async function fetchUserPhotos(user: UserProps) {
     if (!user) return;
@@ -21,7 +26,6 @@ async function fetchUserPhotos(user: UserProps) {
 }
 
 async function getPhotoUrls(photos, user) {
-    console.log('types', typeof photos, typeof user )
     return Promise.all(photos.map(async (photo) => {
         const { data, error } = await supabase.storage
             .from('photos')
