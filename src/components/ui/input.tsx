@@ -1,3 +1,4 @@
+/* eslint no-use-before-define: 2 */  // --> ON
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

@@ -1,3 +1,4 @@
+/* eslint no-use-before-define: 2 */  // --> ON
 'use client'
 
 import Image from "next/image"
@@ -11,7 +12,7 @@ interface photoProps {
     // isFavourited: boolean
 }
 
-export default function Photo({src, alt, width, height, photoName}: Readonly<photoProps>){
+export default function Photo({src, alt, width, height}: Readonly<photoProps>){
     return (
         <div
             style={{width, height}}

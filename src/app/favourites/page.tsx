@@ -1,7 +1,12 @@
+/* eslint no-use-before-define: 2 */  // --> ON
 import { supabaseServer } from "@/utils/supabase/server"
 
+interface UserProps {
+    id: number;
+}
+
 const supabase = supabaseServer();
-async function fetchFavouritePhotos(user: any) {
+async function fetchFavouritePhotos(user: UserProps) {
     
     const { data, error } = await supabase
         .from('favourites')

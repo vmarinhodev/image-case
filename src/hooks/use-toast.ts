@@ -1,3 +1,4 @@
+/* eslint no-use-before-define: 2 */  // --> ON
 "use client"
 
 // Inspired by react-hot-toast library
