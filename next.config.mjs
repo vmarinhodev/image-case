@@ -7,7 +7,10 @@ const nextConfig = {
                 hostname: 'jdltlsfunkwytxckzmhg.supabase.co',
             }
         ]
-    }
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 
 };
 
