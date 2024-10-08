@@ -1,32 +1,30 @@
-import React from "react";
-import Image from "next/image";
+'use client'
 
-interface ImageViewerProps {
-  selectedImage: string;
-//   onNext: () => void;
-//   onPrev: () => void;
+interface PhotoModalProps {
+    src: string;
+    alt: string;
+    onClose?: VoidFunction;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({
-  selectedImage,
-//   onNext,
-//   onPrev,
-}) => {
-  return (
-    <div className="flex justify-center">
-      <div className="relative">
-        <Image
-          src={selectedImage}
-          alt={selectedImage}
-          style={{
-            width: 1018,
-            maxWidth: "100%",
-          }}
-          className="py-2"
-        />
-      </div>
-    </div>
-  );
-};
+import Image from "next/image";
+import { Button } from "../ui/button";
 
-export default ImageViewer;
+export default function PhotoModal({ src, alt, onClose }: PhotoModalProps) {
+    if (!src) return null;
+
+    return (
+        <div>
+            <div>
+                <Button onClick={onClose}>Close</Button>
+                <div>
+                    <Image
+                        src={src}
+                        alt={alt}
+                        fill
+                        objectFit="contain"
+                    />
+                </div>
+            </div>
+        </div>
+    )
+}

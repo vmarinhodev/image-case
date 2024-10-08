@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
-import ImageUploaderForm from "@/components/custom/forms/ImageUploaderForm";
 import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
 // import { Toaster } from "sonner";
 
@@ -34,7 +33,6 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Navbar />
-          <ImageUploaderForm />
           {children}
         </body>
       </html>
