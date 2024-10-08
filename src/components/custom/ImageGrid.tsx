@@ -1,23 +1,20 @@
+import { User } from '@supabase/supabase-js'
 import { supabaseServer } from "@/utils/supabase/server"
 import Photo from "./Photo";
 
-interface UserInterface {
-    id?: string;
-}
-
 interface PhotoInterface {
     name: string;
-    url: string;
-    width: number;
-    height: number;
-    photoName: string;
-    alt: string;
-    user: UserInterface;
 }
 
+interface SignedPhotoUrl {
+    url: string;
+    photoName: string;
+}
+
+
 const supabase = supabaseServer();
-async function fetchUserPhotos(user: UserInterface) {
-    if (!user) return [];
+async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
+    if (!user) return null;
 
     const folderPath = `user_uploads/${user.id}/`
     const { data, error } = await supabase.storage
@@ -26,31 +23,34 @@ async function fetchUserPhotos(user: UserInterface) {
 
     if (error) {
         console.log('Error fetching photos', error)
-        return
+        return null;
     }
-    return data;
+    return data as PhotoInterface[];
 }
 
-async function getPhotoUrls(photos: PhotoInterface[], user: UserInterface) {
+async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(SignedPhotoUrl | null)[]> {
+    console.log('photos', photos)
     return Promise.all(photos.map(async (photo) => {
         const { data, error } = await supabase.storage
             .from('photos')
             .createSignedUrl(`user_uploads/${user.id}/${photo.name}`, 60 * 60)
-        if (error) {
+        
+            if (error) {
             console.error('Error generating url', error)
-            return null
+            return null;
         }
-        return { url: data.signedUrl, photoName: photo.name }
-
-    }))
+        return { url: data.signedUrl ?? '', photoName: photo.name };
+    }));
 }
 
 export default async function ImageGrid() {
-
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return [];
+    if (!user) return <div>No user found</div>
+
     const photos = await fetchUserPhotos(user);
-    const photoObjects = await getPhotoUrls(photos, user); // eslint-disable-line
+    if (!photos) return <div>No images found</div>
+
+    const photoObjects = await getPhotoUrls(photos, user);
 
     return (
         <div className="flex flex-wrap justify-center gap-4">
@@ -70,5 +70,4 @@ export default async function ImageGrid() {
             }
         </div>
     )
-
 }
