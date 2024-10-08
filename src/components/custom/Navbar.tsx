@@ -42,7 +42,7 @@ export default async function Navbar() {
                         <Link href="/favourites">Favourites</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                        <Link href="/dashboard">dashboard</Link>
+                        <Link href="/photos">Photos</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <form action={signOut}>
