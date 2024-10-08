@@ -29,7 +29,7 @@ async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
 }
 
 async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(SignedPhotoUrl | null)[]> {
-    console.log('photos', photos)
+    
     return Promise.all(photos.map(async (photo) => {
         const { data, error } = await supabase.storage
             .from('photos')
