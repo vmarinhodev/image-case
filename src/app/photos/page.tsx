@@ -2,6 +2,7 @@ import ImageGrid from "@/components/custom/ImageGrid";
 import PhotoUploader from "@/components/custom/PhotoUploader";
 
 export default function Photos() {
+    const showFavourites = false;
     return (
         <main className="min-h-screen">
             <div className="container mx-auto px-4 py-4">
@@ -10,7 +11,9 @@ export default function Photos() {
                     <h1 className="text-4xl font-bold mb-4">Photos</h1>
                     <PhotoUploader />
                 </div>
-                <ImageGrid />
+                <ImageGrid
+                    favourites={showFavourites}
+                />
             </div>
         </main>
     )

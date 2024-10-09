@@ -20,7 +20,7 @@ export default function PhotoModal({ src, alt, onClose }: PhotoModalProps) {
                     <Image
                         src={src}
                         alt={alt}
-                        fill={true}
+                        fill
                         style={{ objectFit: 'cover', objectPosition: 'center' }}
                         className="rounded-lg"
                     />

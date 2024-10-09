@@ -11,7 +11,7 @@ async function fetchFavouritePhotos(user: UserProps) {
     
     const { data, error } = await supabase
         .from('favourites')
-        .select('image_id')
+        .select('image_name')
         .eq('user_id', user.id)
 
     if (error) {
@@ -19,7 +19,7 @@ async function fetchFavouritePhotos(user: UserProps) {
         return
     }
 
-    return data.map((favourite) => favourite.image_id)
+    return data.map((favourite) => favourite.image_name)
 }
 
 export default async function Favourites() {
@@ -43,6 +43,7 @@ export default async function Favourites() {
                                 width={200}
                                 height={200}
                                 photoName={photo.photoName}
+                                isFavourited={photo.isFavourited}
                             />
                         )
                     )
