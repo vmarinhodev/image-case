@@ -4,19 +4,21 @@ import Photo from "./Photo";
 
 interface PhotoInterface {
     name: string;
+    isHearted?: boolean;
 }
 
 interface SignedPhotoUrl {
     url: string;
     photoName: string;
+    isHearted?: boolean;
 }
 
 interface ImageGridProps {
     favourites?: boolean;
+    showHearted: boolean;
 }
 
-
-
+// Fetch Images from user
 async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
     const supabase = supabaseServer();
     if (!user) return null;
@@ -44,12 +46,16 @@ async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(Sign
             console.error('Error generating url', error)
             return null;
         }
-        return { url: data.signedUrl ?? '', photoName: photo.name };
+        return {
+            url: data.signedUrl ?? '',
+            photoName: photo.name,
+            isHearted: photo.isHearted,
+        };
     }));
 };
 
 
-//Fetch favourite Photos
+//Fetch favourite Images
 async function fetchFavouritePhotos(user: User) {
     const supabase = supabaseServer();
     const response = await supabase
@@ -64,7 +70,9 @@ async function fetchFavouritePhotos(user: User) {
     return (response?.data.map((favourite) => favourite.image_name))
 }
 
-export default async function ImageGrid({favourites = false}: ImageGridProps) {
+
+// Image Grid Display
+export default async function ImageGrid({favourites = false, showHearted = false}: ImageGridProps) {
     console.log('favourites flag:', favourites); // Check what is being passed
     
     const supabase = supabaseServer();
@@ -83,14 +91,14 @@ export default async function ImageGrid({favourites = false}: ImageGridProps) {
             ...photo,
             isFavourited: favouritePhotoNames.includes(photo.photoName)
         }))
-
-        // console.log('favourites flag:', favourites);
-        // console.log('photoWithFavourites:', photoWithFavourites);
         
-    const displayedImages = favourites
-        ? photoWithFavourites.filter(photo => photo.isFavourited)
-        : photoWithFavourites;
-        // console.log('Displayed Images:', displayedImages);
+    const displayedImages = photoWithFavourites.filter((photo) => {
+        const isFavouritedCondition = favourites ? photo.isFavourited : true;
+        const isShowAllCondition = showHearted || !photo.isHearted;
+        return isFavouritedCondition && isShowAllCondition;
+    })
+    
+
     return (
         <div className="flex flex-wrap justify-center gap-4">
             {

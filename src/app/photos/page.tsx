@@ -1,20 +1,55 @@
-import ImageGrid from "@/components/custom/ImageGrid";
-import PhotoUploader from "@/components/custom/PhotoUploader";
 
-export default function Photos() {
-    const showFavourites = false;
-    return (
-        <main className="min-h-screen">
-            <div className="container mx-auto px-4 py-4">
-                <h1>This is the Photos page</h1>
-                <div className="flex flex-col items-center mb-6">
-                    <h1 className="text-4xl font-bold mb-4">Photos</h1>
-                    <PhotoUploader />
-                </div>
-                <ImageGrid
-                    favourites={showFavourites}
-                />
-            </div>
-        </main>
-    )
-}
+// import { supabaseServer } from "@/utils/supabase/server"
+// import Photo from "@/components/custom/Photo";
+
+// interface UserProps {
+//     id?: string;
+// }
+
+
+// async function fetchFavouritePhotos(user: UserProps) {
+//     const supabase = supabaseServer();
+    
+//     const { data, error } = await supabase
+//         .from('favourites')
+//         .select('image_name')
+//         .eq('user_id', user.id)
+
+//     if (error) {
+//         console.error(`Error fetching favourites`, error)
+//         return
+//     }
+
+//     return data.map((favourite) => favourite.image_name)
+// }
+
+// export default async function Favourites() {
+//     const supabase = supabaseServer();
+//     const { data: { user }, } = await supabase.auth.getUser();
+//     if (!user) {
+//         return <div>User is not authenticated</div>
+//     }
+//     const favouritedPhotos = await fetchFavouritePhotos({ id: user.id });
+//     return (
+//         <main className="container mx-auto py-6">
+//             <h1>Favourites</h1>
+//             <div>
+//                 {favouritedPhotos?.map((photo) => {
+//                     return (
+//                         photo && (
+//                             <Photo
+//                                 key={photo.photoName}
+//                                 src={photo.url}
+//                                 alt={`Photo ${photo.photoName}`}
+//                                 width={200}
+//                                 height={200}
+//                                 photoName={photo.photoName}
+//                                 isFavourited={photo.isFavourited}
+//                             />
+//                         )
+//                     )
+//                 })}
+//             </div>
+//         </main>
+//     );
+// };

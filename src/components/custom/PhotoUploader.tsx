@@ -9,6 +9,8 @@ export default function PhotoUploader() {
     const [uploading, setUploading] = useState(false);
     const router = useRouter();
 
+
+    // Handle Image Upload
     async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
         try {
             setUploading(true);
@@ -38,8 +40,7 @@ export default function PhotoUploader() {
                 body: JSON.stringify({path: '/dashboard'})
             })
             router.refresh();
-
-            // TODO: update ui with new image 
+ 
         } catch (err) {
             console.error(err);
         } finally {
