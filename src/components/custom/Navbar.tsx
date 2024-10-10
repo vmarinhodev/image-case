@@ -20,9 +20,10 @@ export default async function Navbar() {
 
     return <div className="bg-primary dark:bg-slate-700 text-white py-2 px-5 flex justify-between">
         <Logo />
-        <UploadButton />
+        
         {user !== null ? (
             <DropdownMenu>
+                <UploadButton />
                 <DropdownMenuTrigger className='focus:outline-none'>
                     <Avatar>
                         <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
