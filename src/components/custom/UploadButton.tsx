@@ -5,7 +5,7 @@ export default function UploadButton() {
         <button 
             className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
             onClick={() => {
-                document.getElementById('upload-trigger')?.click()
+                document.getElementById('uploadfile-open-trigger')?.click()
             }}
         >
             + Add new file
