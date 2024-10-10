@@ -3,9 +3,9 @@
 import Image from "next/image"
 import { useState } from "react";
 import PhotoModal from "./PhotoModal";
-import { Star, Trash2Icon } from "lucide-react";
 import deletePhoto from "@/app/actions/deletePhoto";
 import handleFavourites from "@/app/actions/handleFavourites";
+import { HeartFilledIcon, HeartIcon, TrashIcon } from "@radix-ui/react-icons";
 
 interface photoProps {
     src: string,
@@ -45,7 +45,7 @@ export default function Photo({
                     <button
                         className="bg-transparent border-none text-white cursor-pointer hover:text-red-500 hover:scale-110 transition duration-300"
                     >
-                        <Trash2Icon />
+                        <TrashIcon />
                     </button>
                 </form>
 
@@ -60,7 +60,7 @@ export default function Photo({
                         type="submit"
                         className="bg-transparent border-none text-white cursor-pointer hover:text-red-500 hover:scale-110 transition duration-300"
                     >
-                        {isFavourited ? <Star fill="yellow" /> : <Star />}
+                        {isFavourited ? <HeartFilledIcon /> : <HeartIcon />}
                     </button>
                 </form>
 

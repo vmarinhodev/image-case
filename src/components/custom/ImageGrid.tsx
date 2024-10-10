@@ -29,7 +29,7 @@ async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
         .list(folderPath)
 
     if (error) {
-        console.log('Error fetching photos', error)
+        console.error('Error fetching photos', error)
         return null;
     }
     return data as PhotoInterface[];
@@ -73,7 +73,6 @@ async function fetchFavouritePhotos(user: User) {
 
 // Image Grid Display
 export default async function ImageGrid({favourites = false, showHearted = false}: ImageGridProps) {
-    console.log('favourites flag:', favourites); // Check what is being passed
     
     const supabase = supabaseServer();
     const { data: { user } } = await supabase.auth.getUser();
