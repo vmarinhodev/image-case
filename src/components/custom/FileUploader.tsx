@@ -1,10 +1,19 @@
 'use client'
 
 import { supabaseBrowser } from "@/utils/supabase/browser";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { DialogDescription, DialogFooter, DialogHeader } from "../ui/dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "../ui/dialog";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 interface FormData {
     title: string;
@@ -109,24 +118,25 @@ export default function FileUploader() {
         <div>
             <Dialog>
                 <DialogTrigger asChild>
-                    {/* <button id="upload-trigger"></button> */}
+                    <button id="upload-image-form-trigger"></button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Upload a new file</DialogTitle>
                         <DialogDescription>
-                            Select ane file and add your title and description
+                            Select a file and add your title and description
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <form onSubmit={handleFileUpload} className="space-y-4">
                             {/* Title Input */}
                             <div>
-                                <label htmlFor="title" className="block text-sm font-medium">Title</label>
-                                <input
+                                <Label htmlFor="title" className="block text-sm font-medium">Title</Label>
+                                <Input
                                     type="text"
                                     name="title"
                                     id="title"
+                                    placeholder="Title"
                                     value={formData.title}
                                     onChange={handleChange}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
@@ -136,10 +146,11 @@ export default function FileUploader() {
 
                             {/* Description Input */}
                             <div>
-                                <label htmlFor="description" className="block text-sm font-medium">Description</label>
-                                <textarea
+                                <Label htmlFor="description" className="block text-sm font-medium">Description</Label>
+                                <Input
                                     name="description"
                                     id="description"
+                                    placeholder="Description"
                                     value={formData.description}
                                     onChange={handleChange}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
@@ -149,7 +160,7 @@ export default function FileUploader() {
 
                             {/* Public Checkbox */}
                             <div className="flex items-center">
-                                <input
+                                <Input
                                     type="checkbox"
                                     name="isPublic"
                                     id="isPublic"
@@ -157,13 +168,13 @@ export default function FileUploader() {
                                     onChange={handleChange}
                                     className="h-4 w-4 text-green-600"
                                 />
-                                <label htmlFor="isPublic" className="ml-2 block text-sm font-medium">Make Public</label>
+                                <label htmlFor="isPublic" className="ml-2 block text-sm font-medium">Make private</label>
                             </div>
 
                             {/* File Upload Input */}
                             <div>
-                                <label htmlFor="file-upload" className="block text-sm font-medium">Image</label>
-                                <input
+                                <Label htmlFor="file-upload" className="block text-sm font-medium">Image</Label>
+                                <Input
                                     type="file"
                                     name="file"
                                     id="file-upload"
@@ -173,17 +184,19 @@ export default function FileUploader() {
                                     required
                                 />
                             </div>
-                        </form>
-                    </div>
-                    <DialogFooter>
+                            
+                        <DialogFooter>
                         <button
                             type="submit"
                             disabled={uploading}
                             className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg"
                         >
-                            {uploading ? 'Uploading...' : 'Upload Image'}
+                            {uploading ? 'Uploading...' : 'Upload photo'}
                         </button>
-                    </DialogFooter>
+                        </DialogFooter>
+                        </form>
+                    </div>
+                    
                 </DialogContent>
             </Dialog>
 

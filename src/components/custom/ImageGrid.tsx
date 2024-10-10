@@ -26,7 +26,9 @@ async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
     const folderPath = `user_uploads/${user.id}/`
     const { data, error } = await supabase.storage
         .from('photos')
-        .list(folderPath)
+        .list(`${folderPath}`, {
+            sortBy: {column: "created_at", order: "desc"}
+        })
 
     if (error) {
         console.error('Error fetching photos', error)
@@ -62,6 +64,7 @@ async function fetchFavouritePhotos(user: User) {
         .from('favourites')
         .select('image_name')
         .eq('user_id', user.id)
+        // .order('created_at', {ascending: false})
 
     if (response.error) {
         throw new Error(`Error: ${response.error.message}`)
@@ -90,6 +93,7 @@ export default async function ImageGrid({favourites = false, showHearted = false
             ...photo,
             isFavourited: favouritePhotoNames.includes(photo.photoName)
         }))
+        
         
     const displayedImages = photoWithFavourites.filter((photo) => {
         const isFavouritedCondition = favourites ? photo.isFavourited : true;

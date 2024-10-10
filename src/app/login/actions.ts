@@ -20,7 +20,7 @@ export async function emailLogin(formData: FormData) {
   if (error) {
     redirect('/error')
   }
-
+  
   revalidatePath('/', 'layout')
   redirect('/dashboard')
 }
@@ -35,9 +35,13 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
   }
 
+  console.log('data', data)
+
   const { error } = await supabase.auth.signUp(data)
 
   if (error) {
+
+    // console.log('error', error)
     redirect('/error')
   }
 

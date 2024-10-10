@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const validateFormData = <T extends z.ZodTypeAny>(
+export const signUpFormSchema = <T extends z.ZodTypeAny>(
     schema: T,
     formData: z.infer<T>
 ) => {

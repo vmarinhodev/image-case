@@ -33,6 +33,7 @@ export default async function handleFavourites(formData: FormData): Promise<void
             console.error('Error removing image from favourites')
             return;
         }
+
     } else {
         const { error: insertError } = await supabase
             .from('favourites')
