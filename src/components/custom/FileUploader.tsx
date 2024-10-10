@@ -17,7 +17,7 @@ interface fileUploaderInterface {
     setOpen: (open: boolean) => void;
 }
 
-export default function FileUploader({ open, setOpen }: fileUploaderInterface) {
+export default function FileUploader() {
     const supabase = supabaseBrowser();
     const [uploading, setUploading] = useState(false);
     const [formData, setFormData] = useState<FormData>({
@@ -80,14 +80,14 @@ export default function FileUploader({ open, setOpen }: fileUploaderInterface) {
                 throw uploadError;
             }
 
-            // image metadat to table
+            // image metadata to table
             const { error: insertError } = await supabase
                 .from('images')
                 .insert({
                     user_id: user.id,
                     title: formData.title,
                     description: formData.description,
-                    is_public: formData.isPublic,
+                    public: formData.isPublic,
                     image_url: filePath,
                 });
 
@@ -111,13 +111,7 @@ export default function FileUploader({ open, setOpen }: fileUploaderInterface) {
     };
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogHeader>
-                <DialogTitle>
-                    File Upload
-                </DialogTitle>
-            </DialogHeader>
-            <DialogContent>
+            <div>
                 <form onSubmit={handleFileUpload} className="space-y-4">
                     {/* Title Input */}
                     <div>
@@ -172,9 +166,6 @@ export default function FileUploader({ open, setOpen }: fileUploaderInterface) {
                             required
                         />
                     </div>
-                </form>
-                <DialogFooter>
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         disabled={uploading}
@@ -182,8 +173,11 @@ export default function FileUploader({ open, setOpen }: fileUploaderInterface) {
                     >
                         {uploading ? 'Uploading...' : 'Upload Image'}
                     </button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </form>
+                
+                   </div>
+                    
+                
+       
     );
 };
