@@ -41,7 +41,7 @@ export async function signup(formData: FormData) {
 
   if (error) {
 
-    // console.log('error', error)
+    console.log('error', error)
     redirect('/error')
   }
 
@@ -54,5 +54,5 @@ export async function signup(formData: FormData) {
 export async function signOut() {
   const supabase = supabaseServer();
   await supabase.auth.signOut();
-  redirect('/signup')
+  redirect('/')
 }

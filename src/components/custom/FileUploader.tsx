@@ -117,8 +117,7 @@ export default function FileUploader() {
     return (
         <div>
             <Dialog>
-                <DialogTrigger asChild>
-                    <button id="upload-image-form-trigger"></button>
+                <DialogTrigger className="display-none overflow-hidden p-0 m-0 -z-50">
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { emailLogin, signup } from "./actions";
+import { emailLogin } from "./actions";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/utils/supabase/server";
 
@@ -71,7 +71,7 @@ export default async function Login({
           </form>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
-            <button formAction={signup} form="login-form" className="underline">
+            <button formAction={''} form="login-form" className="underline">
               Sign up
             </button>
           </div>

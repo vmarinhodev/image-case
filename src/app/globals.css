@@ -80,9 +80,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-
-.uppy-Dashboard-inner {
-  width: auto !important;
-  height: 25rem !important;
-}
