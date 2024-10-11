@@ -46,15 +46,14 @@ export default function Photo({
                 <input type="hidden" name="photoName" value={photoName} />
                 <input type="hidden" name="isFavourited" value={isFavourited ? 'true' : 'false'}/>
                 <button type="submit" className="bg-transparent border-none text-white cursor-pointer hover:text-red-500 hover:scale-110 transition duration-300">
-                    {isFavourited ? <HeartFilledIcon /> : <HeartIcon />}
+                    {isFavourited ? <HeartFilledIcon className="text-red-500"/> : <HeartIcon />}
                 </button>
             </form>
             
             <Image
                 src={src}
                 alt={alt}
-                width={width}
-                height={height}
+                fill
                 style={{objectFit: 'cover', objectPosition: 'center'}}
                 onClick={() => setShowModal(true)}
             />
