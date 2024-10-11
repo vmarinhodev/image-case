@@ -1,5 +1,5 @@
 import SignupForm from "@/components/forms/signupForm";
-import Form from "@/components/forms/signupTestForm";
+// import Form from "@/components/forms/signupTestForm";
 
 
 export default function SignUp() {

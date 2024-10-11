@@ -3,6 +3,7 @@ import { supabaseServer } from "@/utils/supabase/server"
 import Photo from "./Photo";
 
 interface PhotoInterface {
+    id: string;
     name: string;
     isHearted?: boolean;
 }
@@ -27,13 +28,14 @@ async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
     const { data, error } = await supabase.storage
         .from('photos')
         .list(`${folderPath}`, {
-            sortBy: {column: "created_at", order: "desc"}
+            sortBy: { column: "created_at", order: "desc" }
         })
 
     if (error) {
         console.error('Error fetching photos', error)
         return null;
     }
+    // console.log('data photos', data)
     return data as PhotoInterface[];
 }
 
@@ -52,6 +54,9 @@ async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(Sign
             url: data.signedUrl ?? '',
             photoName: photo.name,
             isHearted: photo.isHearted,
+            id: photo.id,
+            title: photo?.title,
+            description: photo?.description,
         };
     }));
 };
@@ -64,19 +69,19 @@ async function fetchFavouritePhotos(user: User) {
         .from('favourites')
         .select('image_name')
         .eq('user_id', user.id)
-        // .order('created_at', {ascending: false})
+        .order('created_at', { ascending: false })
 
     if (response.error) {
         throw new Error(`Error: ${response.error.message}`)
     }
-    
+
     return (response?.data.map((favourite) => favourite.image_name))
 }
 
 
 // Image Grid Display
-export default async function ImageGrid({favourites = false, showHearted = false}: ImageGridProps) {
-    
+export default async function ImageGrid({ favourites = false, showHearted = false }: ImageGridProps) {
+
     const supabase = supabaseServer();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return <div>No user found</div>
@@ -86,21 +91,21 @@ export default async function ImageGrid({favourites = false, showHearted = false
 
     const photoObjects = await getPhotoUrls(photos, user);
     const favouritePhotoNames = await fetchFavouritePhotos(user as User);
-    
+
     const photoWithFavourites = photoObjects
         .filter((photo): photo is SignedPhotoUrl => (photo !== null))
         .map((photo) => ({
             ...photo,
             isFavourited: favouritePhotoNames.includes(photo.photoName)
         }))
-        
-        
+
+
     const displayedImages = photoWithFavourites.filter((photo) => {
         const isFavouritedCondition = favourites ? photo.isFavourited : true;
         const isShowAllCondition = showHearted || !photo.isHearted;
         return isFavouritedCondition && isShowAllCondition;
     })
-    
+
 
     return (
         <div className="flex flex-wrap justify-center gap-4">
@@ -109,7 +114,7 @@ export default async function ImageGrid({favourites = false, showHearted = false
                     <Photo
                         key={photo.photoName}
                         src={photo.url}
-                        alt={`Photo ${photo.photoName}`}
+                        alt={photo.photoName}
                         width={200}
                         height={200}
                         photoName={photo.photoName}
