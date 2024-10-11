@@ -55,8 +55,6 @@ async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(Sign
             photoName: photo.name,
             isHearted: photo.isHearted,
             id: photo.id,
-            title: photo?.title,
-            description: photo?.description,
         };
     }));
 };
