@@ -73,7 +73,7 @@ export default function FileUploader() {
 
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `${user.id}/${fileName}`;
+            const filePath = `user_uploads/${user.id}/${fileName}`;
 
             //file to supabase storage
             const { error: uploadError } = await supabase.storage
@@ -117,7 +117,7 @@ export default function FileUploader() {
     return (
         <div>
             <Dialog>
-                <DialogTrigger className="display-none overflow-hidden p-0 m-0 -z-50">
+                <DialogTrigger id="upload-trigger" className="display-none overflow-hidden p-0 m-0 -z-50">
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
