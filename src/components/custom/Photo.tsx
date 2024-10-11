@@ -49,14 +49,17 @@ export default function Photo({
                     {isFavourited ? <HeartFilledIcon className="text-red-500"/> : <HeartIcon />}
                 </button>
             </form>
-            
+            <div style={{ position: 'relative', width: '100%', height: '200px'}}>
             <Image
                 src={src}
                 alt={alt}
                 fill
                 style={{objectFit: 'cover', objectPosition: 'center'}}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
                 onClick={() => setShowModal(true)}
             />
+            </div>
             
             {showModal && <PhotoModal src={src} alt={alt} onClose={toggleModal} />}
         </div>

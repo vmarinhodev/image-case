@@ -76,6 +76,19 @@ async function fetchFavouritePhotos(user: User) {
     return (response?.data.map((favourite) => favourite.image_name))
 }
 
+async function fetchPhotoDetails(user: User) {
+    const supabase = supabaseServer();
+    const response = await supabase
+        .from('images')
+        .select('image_url')
+        .eq('user_id', user.id)
+        if (response.error) {
+            throw new Error(`Error: ${response.error.message}`)
+        }
+    
+        return (response?.data.map((details) => details.image_url))
+}
+
 
 // Image Grid Display
 export default async function ImageGrid({ favourites = false, showHearted = false }: ImageGridProps) {
@@ -86,6 +99,9 @@ export default async function ImageGrid({ favourites = false, showHearted = fals
 
     const photos = await fetchUserPhotos(user as User);
     if (!photos) return <div>No images found</div>
+
+    const photoDetails = await fetchPhotoDetails(user as User);
+    console.log('photoDetails', photoDetails)
 
     const photoObjects = await getPhotoUrls(photos, user);
     const favouritePhotoNames = await fetchFavouritePhotos(user as User);

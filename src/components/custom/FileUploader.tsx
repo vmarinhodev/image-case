@@ -73,7 +73,7 @@ export default function FileUploader() {
 
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `user_uploads/${user.id}/${fileName}`;
+            const filePath = `${user.id}/${fileName}`;
 
             //file to supabase storage
             const { error: uploadError } = await supabase.storage
