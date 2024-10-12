@@ -1,8 +1,8 @@
 'use client'
+import {ValidationSchemaType, schema } from "@/schemas/signupSchema";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from 'zod';
 import {
     Card,
     CardContent,
@@ -15,28 +15,21 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { signup } from "@/app/login/actions";
 
+
 export default function SignupForm() {
 
-    const schema = z.object({
-        email: z.string().min(1, { message: 'Email is required' }).email('Invalid email address'),
-        password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
-        confirmPassword: z.string().min(6, { message: 'Password must be at least 6 characters' })
-    }).refine((data) => data.password === data.confirmPassword, {
-        path: ['confirmPassword'],
-        message: 'Passwords does not match'
-    })
-
-    //extract the inferred type from schema
-    type ValidationSchemaType = z.infer<typeof schema>
-
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ValidationSchemaType>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schema)
     });
 
     // Form submit handler
     const onSubmit: SubmitHandler<ValidationSchemaType> = (data) => {
-        console.log(data)
-       
+        const formData = new FormData();
+        formData.append("email", data.email);
+        formData.append("password", data.password);
+
+        // Call the signup action with FormData
+        signup(formData);
     }
 
     return (
@@ -55,7 +48,6 @@ export default function SignupForm() {
                             <Label htmlFor="email" className="block text-sm font-medium">Email</Label>
                             <Input
                                 type="email"
-                                id="email"
                                 placeholder='email'
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                 {...register('email')}
@@ -68,7 +60,6 @@ export default function SignupForm() {
                             <Label htmlFor="password" className="block text-sm font-medium">Password</Label>
                             <Input
                                 type="password"
-                                id="password"
                                 placeholder='password'
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                 {...register('password')}
@@ -80,22 +71,20 @@ export default function SignupForm() {
                             <Label htmlFor="confirmPassword" className="block text-sm font-medium"> Confirm Password</Label>
                             <Input
                                 type="password"
-                                id="confirmPassword"
-                                placeholder='password'
+                                placeholder='confirm Password'
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                 {...register('confirmPassword')}
                             />
-                            {errors.password && <span className="text-red-600 text-sm">{errors.confirmPassword?.message}</span>}
+                            {errors.confirmPassword && <span className="text-red-600 text-sm">{errors.confirmPassword?.message}</span>}
                         </div>
                         {/* Submit Button */}
                         <div>
                             <Button
                                 type="submit"
-                                disabled={isSubmitting}
+                                // disabled={isSubmitting}
                                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
-                                formAction={signup}
                             >
-                                {isSubmitting ? 'Signing up...' : 'Sign up'}
+                             {isSubmitting ? 'Signing up...' : 'Sign up'}
                             </Button>
                         </div>
                     </form>

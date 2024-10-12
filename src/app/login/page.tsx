@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,13 +12,11 @@ import { Input } from "@/components/ui/input";
 import { emailLogin } from "./actions";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/utils/supabase/server";
+import Link from "next/link";
 
-export default async function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
-  const supabase = await supabaseServer();
+export default async function Login() {
+
+  const supabase = supabaseServer();
 
   const {
     data: { user },
@@ -60,20 +59,17 @@ export default async function Login({
                 required
               />
             </div>
-            {searchParams.message && (
-              <div className="text-sm font-medium text-destructive">
-                {searchParams.message}
-              </div>
-            )}
             <Button formAction={emailLogin} className="w-full">
               Login
             </Button>
           </form>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
-            <button formAction={''} form="login-form" className="underline">
+            <Link 
+              href={"/signup"}  className="underline"
+            >
               Sign up
-            </button>
+            </Link>
           </div>
         </CardContent>
       </Card>

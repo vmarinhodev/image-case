@@ -83,7 +83,6 @@ export default function FileUploader() {
             if (uploadError) {
                 throw uploadError;
             }
-
             // image metadata to table
             const { error: insertError } = await supabase
                 .from('images')

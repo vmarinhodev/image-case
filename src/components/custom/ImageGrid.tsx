@@ -5,13 +5,11 @@ import Photo from "./Photo";
 interface PhotoInterface {
     id: string;
     name: string;
-    isHearted?: boolean;
 }
 
 interface SignedPhotoUrl {
     url: string;
     photoName: string;
-    isHearted?: boolean;
 }
 
 interface ImageGridProps {
@@ -53,7 +51,6 @@ async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(Sign
         return {
             url: data.signedUrl ?? '',
             photoName: photo.name,
-            isHearted: photo.isHearted,
             id: photo.id,
         };
     }));
@@ -72,7 +69,6 @@ async function fetchFavouritePhotos(user: User) {
     if (response.error) {
         throw new Error(`Error: ${response.error.message}`)
     }
-
     return (response?.data.map((favourite) => favourite.image_name))
 }
 
@@ -80,13 +76,13 @@ async function fetchPhotoDetails(user: User) {
     const supabase = supabaseServer();
     const response = await supabase
         .from('images')
-        .select('image_url')
+        .select()
         .eq('user_id', user.id)
         if (response.error) {
             throw new Error(`Error: ${response.error.message}`)
         }
-    
-        return (response?.data.map((details) => details.image_url))
+
+        return (response?.data)
 }
 
 
@@ -101,22 +97,24 @@ export default async function ImageGrid({ favourites = false, showHearted = fals
     if (!photos) return <div>No images found</div>
 
     const photoDetails = await fetchPhotoDetails(user as User);
-    console.log('photoDetails', photoDetails)
+    //  console.log('photoDetails', photoDetails)
+    if (!photoDetails) return <div>No details for selected images</div>
 
     const photoObjects = await getPhotoUrls(photos, user);
     const favouritePhotoNames = await fetchFavouritePhotos(user as User);
+    
 
     const photoWithFavourites = photoObjects
         .filter((photo): photo is SignedPhotoUrl => (photo !== null))
         .map((photo) => ({
             ...photo,
-            isFavourited: favouritePhotoNames.includes(photo.photoName)
+            isFavourited: favouritePhotoNames.includes(photo.photoName),
         }))
-
+        console.log('photoWithFavourites', photoWithFavourites)
 
     const displayedImages = photoWithFavourites.filter((photo) => {
         const isFavouritedCondition = favourites ? photo.isFavourited : true;
-        const isShowAllCondition = showHearted || !photo.isHearted;
+        const isShowAllCondition = showHearted;
         return isFavouritedCondition && isShowAllCondition;
     })
 
