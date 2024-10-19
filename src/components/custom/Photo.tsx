@@ -14,7 +14,7 @@ interface photoProps {
     width: number;
     height: number;
     photoName: string,
-    isFavourited: boolean
+    isFavourited: boolean,
 }
 
 export default function Photo({
@@ -23,7 +23,7 @@ export default function Photo({
     width,
     height,
     photoName,
-    isFavourited = false
+    isFavourited = false,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
 

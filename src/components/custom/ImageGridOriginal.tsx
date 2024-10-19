@@ -2,73 +2,64 @@ import { User } from '@supabase/supabase-js'
 import { supabaseServer } from "@/utils/supabase/server"
 import Photo from "./Photo";
 
-interface ImageInterface {
+interface PhotoInterface {
     id: string;
-    user_id: string;
-    image_url: string;
-    title: string;
-    public: boolean;
+    name: string;
 }
 
-interface SignedImageUrl {
+interface SignedPhotoUrl {
     url: string;
     photoName: string;
-    privacy: boolean;
-    owner: string;
 }
 
 interface ImageGridProps {
     favourites?: boolean;
     showHearted: boolean;
-    showPrivate: boolean;
 }
 
 // Fetch Images from user
-async function fetchAllImages(user: User): Promise<ImageInterface[] | null> {
+async function fetchUserPhotos(user: User): Promise<PhotoInterface[] | null> {
     const supabase = supabaseServer();
-    if (!user) return [];
+    if (!user) return null;
 
-    const { data, error } = await supabase
-        .from('images')
-        .select()
+    const folderPath = `user_uploads/${user.id}/`
+    const { data, error } = await supabase.storage
+        .from('photos')
+        .list(`${folderPath}`, {
+            sortBy: { column: "created_at", order: "desc" }
+        })
 
     if (error) {
         console.error('Error fetching photos', error)
         return null;
     }
-
-    return data as ImageInterface[];
+    // console.log('data photos', data)
+    return data as PhotoInterface[];
 }
 
 // Get user Images Urls
-async function getImageUrls(photos: ImageInterface[], user: User): Promise<(SignedImageUrl | null)[]> {
+async function getPhotoUrls(photos: PhotoInterface[], user: User): Promise<(SignedPhotoUrl | null)[]> {
     const supabase = supabaseServer();
-    if (!user) return [];
-
     return Promise.all(photos.map(async (photo) => {
-        const { data, error } = await supabase
-            .storage
-            .from('allimages')
-            .createSignedUrl(`users_folder/${photo.image_url}`, 60 * 60)
+        const { data, error } = await supabase.storage
+            .from('photos')
+            .createSignedUrl(`user_uploads/${user.id}/${photo.name}`, 60 * 60)
 
         if (error) {
             console.error('Error generating url', error)
             return null;
         }
-
         return {
             url: data.signedUrl ?? '',
-            photoName: photo.title,
+            photoName: photo.name,
             id: photo.id,
-            privacy: photo.public,
-            owner: photo.user_id
         };
     }));
 };
 
 
 //Fetch user favourite Images
-async function fetchUserFavouriteImages(user: User) {
+async function fetchFavouritePhotos(user: User) {
     const supabase = supabaseServer();
     const response = await supabase
         .from('favourites')
@@ -82,43 +73,51 @@ async function fetchUserFavouriteImages(user: User) {
     return (response?.data.map((favourite) => favourite.image_name))
 }
 
-// Image Grid Display
-export default async function ImageGrid({ favourites = false, showHearted = false, showPrivate = false }: ImageGridProps) {
+// Fetch all images that are not private
+async function fetchPhotoDetails() {
+    const supabase = supabaseServer();
+    const response = await supabase
+        .from('images')
+        .select()
+        if (response.error) {
+            throw new Error(`Error: ${response.error.message}`)
+        }
 
-    // Get data from server
+        return (response?.data)
+}
+
+
+// Image Grid Display
+export default async function ImageGrid({ favourites = false, showHearted = false }: ImageGridProps) {
+
     const supabase = supabaseServer();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return <div>No user found</div>
 
-    // Fetch Single user Images
-    const userPhotos = await fetchAllImages(user as User);
-    console.log('userPhotos', userPhotos)
-    if (!userPhotos?.length) return <div>No images found</div>
+    const photos = await fetchUserPhotos(user as User);
+    if (!photos) return <div>No images found</div>
 
-    const photoObjects = await getImageUrls(userPhotos, user);
-    const favouritePhotoNames = await fetchUserFavouriteImages(user as User);
+    const photoDetails = await fetchPhotoDetails();
+     console.log('photoDetails', photoDetails)
+    if (!photoDetails) return <div>No details for selected images</div>
 
-    // Check if user has any favourites
-    // if (!favouritePhotoNames.length) return <div>You have no favourite photos yet.</div>
+    const photoObjects = await getPhotoUrls(photos, user);
+    const favouritePhotoNames = await fetchFavouritePhotos(user as User);
+    
 
-    // Images that have been favourited
     const photoWithFavourites = photoObjects
-        .filter((photo): photo is SignedImageUrl => (photo !== null))
+        .filter((photo): photo is SignedPhotoUrl => (photo !== null))
         .map((photo) => ({
             ...photo,
             isFavourited: favouritePhotoNames.includes(photo.photoName),
         }))
 
-        const displayedImages = photoWithFavourites.filter((photo) => {
+    const displayedImages = photoWithFavourites.filter((photo) => {
         const isFavouritedCondition = favourites ? photo.isFavourited : true;
         const isShowAllCondition = showHearted;
-
-        const isPrivateCondition = 
-            photo.privacy === false ||
-            (photo.privacy === true && showPrivate && photo.owner === user.id)
-
-        return isFavouritedCondition && isShowAllCondition && isPrivateCondition;
+        return isFavouritedCondition && isShowAllCondition;
     })
+
 
     return (
         <div className="flex flex-wrap justify-center gap-4">

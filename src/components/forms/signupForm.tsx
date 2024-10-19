@@ -26,6 +26,7 @@ export default function SignupForm() {
     const onSubmit: SubmitHandler<ValidationSchemaType> = (data) => {
         const formData = new FormData();
         formData.append("email", data.email);
+        formData.append("display_name", data.display_name)
         formData.append("password", data.password);
 
         // Call the signup action with FormData
@@ -55,6 +56,18 @@ export default function SignupForm() {
                             {errors.email && <p className="text-red-600 text-sm">{errors?.email.message}</p>}
                         </div>
 
+                         {/* User Name Input */}
+                         <div>
+                            <Label htmlFor="display_name" className="block text-sm font-medium">User Name</Label>
+                            <Input
+                                type="display_name"
+                                placeholder='user name'
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                                {...register('display_name')}
+                            />
+                            {errors.display_name && <p className="text-red-600 text-sm">{errors?.display_name.message}</p>}
+                        </div>
+
                         {/* Password Input */}
                         <div>
                             <Label htmlFor="password" className="block text-sm font-medium">Password</Label>
@@ -81,7 +94,7 @@ export default function SignupForm() {
                         <div>
                             <Button
                                 type="submit"
-                                // disabled={isSubmitting}
+                                disabled={isSubmitting}
                                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
                             >
                              {isSubmitting ? 'Signing up...' : 'Sign up'}

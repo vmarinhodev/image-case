@@ -70,14 +70,13 @@ export default function FileUploader() {
             if (!user) {
                 throw new Error('User not authenticated');
             }
-
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `user_uploads/${user.id}/${fileName}`;
+            const filePath = `users_folder/${fileName}`;
 
             //file to supabase storage
             const { error: uploadError } = await supabase.storage
-                .from('photos')
+                .from('allimages')
                 .upload(filePath, file);
 
             if (uploadError) {
@@ -88,10 +87,10 @@ export default function FileUploader() {
                 .from('images')
                 .insert({
                     user_id: user.id,
+                    image_url: fileName,
                     title: formData.title,
                     description: formData.description,
                     public: formData.isPublic,
-                    image_url: filePath,
                 });
 
             if (insertError) {
@@ -104,7 +103,7 @@ export default function FileUploader() {
                     'Content-Type': 'application/json'
                 },
             });
-
+            // console.log('fileName', fileName)
             router.refresh();
         } catch (error) {
             console.error('Error during upload', error);
@@ -182,27 +181,20 @@ export default function FileUploader() {
                                     required
                                 />
                             </div>
-                            
-                        <DialogFooter>
-                        <button
-                            type="submit"
-                            disabled={uploading}
-                            className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg"
-                        >
-                            {uploading ? 'Uploading...' : 'Upload photo'}
-                        </button>
-                        </DialogFooter>
+
+                            <DialogFooter>
+                                <button
+                                    type="submit"
+                                    disabled={uploading}
+                                    className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg"
+                                >
+                                    {uploading ? 'Uploading...' : 'Upload photo'}
+                                </button>
+                            </DialogFooter>
                         </form>
                     </div>
-                    
                 </DialogContent>
             </Dialog>
-
-
-
         </div>
-
-
-
     );
 };

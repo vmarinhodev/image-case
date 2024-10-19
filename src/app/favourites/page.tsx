@@ -1,5 +1,9 @@
 import ImageGrid from "@/components/custom/ImageGrid";
 
+// async function fetchUserFavouriteImages(user: User) {
+
+// }
+
 export default function Favourites() {
     return (
         <main className="min-h-screen">
@@ -9,6 +13,7 @@ export default function Favourites() {
                     <ImageGrid
                         favourites={true}
                         showHearted={true}
+                        showPrivate={false}
                     />
                 </div>
             </div>
