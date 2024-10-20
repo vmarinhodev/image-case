@@ -103,7 +103,7 @@ export default function FileUploader() {
                     'Content-Type': 'application/json'
                 },
             });
-            // console.log('fileName', fileName)
+
             router.refresh();
         } catch (error) {
             console.error('Error during upload', error);

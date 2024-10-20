@@ -1,18 +1,37 @@
+import { getAuthenticatedUser } from "@/app/auth/authUser";
 import ImageGrid from "@/components/custom/ImageGrid";
+import { fetchImagesWithFavourites } from "../actions/fetchImagesWithFavourites";
 
-export default function Photos() {
-  return (
-    <main className="min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Private Images</h1>
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex flex-col items-center mb-6">
-          <ImageGrid
-            favourites={false}
-            showHearted={false}
-            showPrivate={true}
-          />
+export default async function Private() {
+  const user = await getAuthenticatedUser();
+
+  if (!user) {
+    return <div>You need to be logged in to see this page.</div>
+  }
+
+  const { images: privateImages } = await fetchImagesWithFavourites(user, { onlyPrivate: true });
+
+  if (!privateImages.length) {
+    return <div>No private images to display.</div>
+  }
+
+    return (
+      <main className="min-h-screen relative p-10">
+        <div className="container mx-auto">
+          <div className="mb-6">
+            <h1 className="text-4xl font-bold mb-4">DashBoard</h1>
+          </div>
+          <div className="w-full">
+            <ImageGrid
+              user={user}
+              images={privateImages}
+              favourites={false}
+              showHearted={true}
+              showPrivate={true}
+              noDataMessage="You have NO private images"
+            />
+          </div>
         </div>
-      </div>
-    </main>
-  )
-}
+      </main>
+    );
+};

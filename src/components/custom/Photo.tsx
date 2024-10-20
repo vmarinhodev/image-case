@@ -11,18 +11,16 @@ import { HeartFilledIcon, HeartIcon, TrashIcon } from "@radix-ui/react-icons";
 interface photoProps {
     src: string,
     alt: string,
-    width: number;
-    height: number;
-    photoName: string,
-    isFavourited: boolean,
+    title: string,
+    description: string;
+    isFavourited?: boolean,
 }
 
 export default function Photo({
     src,
     alt,
-    width,
-    height,
-    photoName,
+    title,
+    description,
     isFavourited = false,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
@@ -32,35 +30,51 @@ export default function Photo({
     };
 
     return (
-        <div style={{width, height}} className="relative w-auto h-auto shadow-md border border-white border-opacity-80 rounded-lg overflow-hidden cursor-pointer">
-            {/* Delete Button */}
-            <form action={deletePhoto} className="absolute bottom-2.5 right-10 z-10">
-                <input type="hidden" name="photoPath" value={src} />
-                <button className="bg-transparent border-none text-white cursor-pointer hover:text-red-500 hover:scale-110 transition duration-300">
-                    <TrashIcon />
-                </button>
-            </form>
-
-            {/* Favourites Button */}
-            <form action={handleFavourites} className="absolute bottom-2.5 right-2.5 z-10">
-                <input type="hidden" name="photoName" value={photoName} />
-                <input type="hidden" name="isFavourited" value={isFavourited ? 'true' : 'false'}/>
-                <button type="submit" className="bg-transparent border-none text-white cursor-pointer hover:text-red-500 hover:scale-110 transition duration-300">
-                    {isFavourited ? <HeartFilledIcon className="text-red-500"/> : <HeartIcon />}
-                </button>
-            </form>
-            <div style={{ position: 'relative', width: '100%', height: '200px'}}>
-            <Image
-                src={src}
-                alt={alt}
-                fill
-                style={{objectFit: 'cover', objectPosition: 'center'}}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                priority
-                onClick={() => setShowModal(true)}
-            />
+        <div
+            className="bg-white shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] w-full max-w-sm rounded-lg overflow-hidden mx-auto font-[sans-serif] mt-4">
+            <div className="relative min-h-[256px] max-h-[256px] h-[256px] overflow-hidden">
+                <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    sizes="(max-width: 768px) 80vw, (max-width: 1200px) 60vw, 40vw"
+                    style={{ objectFit: "cover", objectPosition: "center" }}
+                    className="cursor-pointer"
+                    priority
+                    onClick={() => setShowModal(true)}
+                />
             </div>
-            
+
+            <div className="p-6">
+                <h3 className="text-gray-800 text-xl font-bold">{title}</h3>
+                <p className="mt-4 text-sm text-gray-500 leading-relaxed">
+                    {description}
+                </p>
+            </div>
+            {/* Footer for buttons */}
+            <div className="flex justify-between items-center p-4">
+                {/* Delete Button */}
+                <form action={deletePhoto}>
+                    <input type="hidden" name="photoPath" value={src} />
+                    <button
+                        type="submit"
+                        className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
+                    >
+                        <TrashIcon className="size-6" />
+                    </button>
+                </form>
+                {/* Favourite Button */}
+                <form action={handleFavourites}>
+                    <input type="hidden" name="title" value={title} />
+                    <input type="hidden" name="isFavourited" value={isFavourited ? 'true' : 'false'} />
+                    <button
+                        type="submit"
+                        className="text-red-500 cursor-pointer hover:text-red-600">
+                        {isFavourited ? <HeartFilledIcon className="size-6" /> : <HeartIcon className="size-6" />}
+                    </button>
+                </form>
+            </div>
+            {/* Photo Modal */}
             {showModal && <PhotoModal src={src} alt={alt} onClose={toggleModal} />}
         </div>
     );

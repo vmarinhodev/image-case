@@ -7,11 +7,11 @@ import { revalidatePath } from "next/cache";
 //Handle Favourite Images
 export default async function handleFavourites(formData: FormData): Promise<void> {
     const supabase = supabaseServer();
-    const photoName = formData.get('photoName') as string | null;
+    const title = formData.get('title') as string | null;
     const isFavourited = formData.get('isFavourited') as string | null;
 
     // Check for missing fields
-    if (!photoName || !isFavourited) {
+    if (!title || !isFavourited) {
         return;
     }
 
@@ -27,7 +27,7 @@ export default async function handleFavourites(formData: FormData): Promise<void
         const { error: deleteError } = await supabase
             .from('favourites')
             .delete()
-            .match({ user_id: user.id, image_name: photoName });
+            .match({ user_id: user.id, image_name: title });
 
         if (deleteError) {
             console.error('Error removing image from favourites')
@@ -37,7 +37,7 @@ export default async function handleFavourites(formData: FormData): Promise<void
     } else {
         const { error: insertError } = await supabase
             .from('favourites')
-            .insert([{ user_id: user.id, image_name: photoName }]);
+            .insert([{ user_id: user.id, image_name: title }]);
 
         if (insertError) {
             console.error('Error adding image into favourites')
