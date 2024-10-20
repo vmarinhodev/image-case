@@ -16,6 +16,11 @@ interface photoProps {
     isFavourited?: boolean,
 }
 
+const capitalizeFirstLetter = (string: string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 export default function Photo({
     src,
     alt,
@@ -31,7 +36,7 @@ export default function Photo({
 
     return (
         <div
-            className="bg-white shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] w-full max-w-sm rounded-lg overflow-hidden mx-auto font-[sans-serif] mt-4">
+            className="flex flex-col bg-white shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] w-full max-w-sm rounded-lg overflow-hidden mx-auto font-[sans-serif] mt-4">
             <div className="relative min-h-[256px] max-h-[256px] h-[256px] overflow-hidden">
                 <Image
                     src={src}
@@ -45,10 +50,10 @@ export default function Photo({
                 />
             </div>
 
-            <div className="p-6">
-                <h3 className="text-gray-800 text-xl font-bold">{title}</h3>
+            <div className="p-6 flex-grow">
+                <h3 className="text-gray-800 text-xl font-bold">{capitalizeFirstLetter(title)}</h3>
                 <p className="mt-4 text-sm text-gray-500 leading-relaxed">
-                    {description}
+                    {capitalizeFirstLetter(description)}
                 </p>
             </div>
             {/* Footer for buttons */}
