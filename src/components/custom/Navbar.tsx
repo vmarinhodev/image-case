@@ -12,18 +12,19 @@ import { supabaseServer } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/app/login/actions";
-import UploadButton from "./UploadButton";
+import FileUploader from "./FileUploader";
 
 export default async function Navbar() {
-    const supabase = await supabaseServer();
-    const { data: { user }, } = await supabase.auth.getUser();
+    const supabase = supabaseServer();
+    const { data: { user } } = await supabase.auth.getUser();
 
     return <div className="bg-primary dark:bg-slate-700 text-white py-2 px-5 flex justify-between">
         <Logo />
         
         {user !== null ? (
+            <>
+            <FileUploader />
             <DropdownMenu>
-                <UploadButton />
                 <DropdownMenuTrigger className='focus:outline-none'>
                     <Avatar>
                         <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
@@ -32,7 +33,7 @@ export default async function Navbar() {
 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                         <Link href="/dashboard">Dashboard</Link>
@@ -50,8 +51,9 @@ export default async function Navbar() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
+            </>
         ) : (
-            <Button>
+            <Button className="bg-blue-600 hover:bg-blue-700">
                 <Link href="/login">Login</Link>
             </Button>
         )}

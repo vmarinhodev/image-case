@@ -15,6 +15,7 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 
 interface FormData {
     title: string;
@@ -134,16 +135,17 @@ export default function FileUploader() {
     return (
         <div>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <DialogTrigger id="upload-trigger" className="display-none overflow-hidden p-0 m-0 -z-50">
+                <DialogTrigger asChild>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">+ Add new file</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Upload a new file</DialogTitle>
+                        <DialogTitle>Upload a new Image</DialogTitle>
                         <DialogDescription>
                             Select a file and add your title and description
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
+                    
                         <form onSubmit={handleFileUpload} className="space-y-4">
                             {/* Title Input */}
                             <div>
@@ -210,7 +212,6 @@ export default function FileUploader() {
                                 </button>
                             </DialogFooter>
                         </form>
-                    </div>
                 </DialogContent>
             </Dialog>
         </div>

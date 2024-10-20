@@ -4,7 +4,7 @@ import SignupForm from "@/components/forms/signupForm";
 
 export default function SignUp() {
   return (
-    <div className="w-full lg:grid lg:grid-cols-5 min-h-screen flex sm:items-center sm:justify-center sm:grid">
+    <div className="w-full lg:grid lg:grid-cols-5 h-[calc(100vh-52px)] flex sm:items-center sm:justify-center sm:grid">
       <div className="flex items-center justify-center py-12 col-span-2 px-8">
         <div className="mx-auto grid max-w-[540px] gap-6">
           <div className="grid gap-2 text-left">
@@ -12,7 +12,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block col-span-3 min-h-screen bg-gradient-to-t from-green-50 via-pink-100 to-purple-100">
+      <div className="hidden bg-muted lg:block col-span-3 h-[calc(100vh-52px)] bg-gradient-to-t from-green-50 via-pink-100 to-purple-100">
         <div className="flex items-center justify-center py-12 col-span-2 px-4">
           <div className="mx-auto grid max-w-[540px] gap-4">
             <h1 className="text-3xl font-bold">Sign Up!</h1>
