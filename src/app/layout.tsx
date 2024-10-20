@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
 import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
 import FileUploader from "@/components/custom/FileUploader";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,6 +35,15 @@ export default function RootLayout({
         > 
           <Navbar />
           <FileUploader />
+          <Toaster
+            toastOptions={{
+                classNames: {
+                  error: 'bg-red-400',
+                  success: 'bg-green-400',
+                  warning: 'bg-yellow-400',
+                },
+            }}
+          />
           {children}
         </body>
       </html>

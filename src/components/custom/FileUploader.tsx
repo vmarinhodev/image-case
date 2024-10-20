@@ -14,6 +14,7 @@ import {
 } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { toast } from "sonner";
 
 interface FormData {
     title: string;
@@ -30,6 +31,7 @@ export default function FileUploader() {
         isPublic: false,
     });
     const [file, setFile] = useState<File | null>(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
     const router = useRouter();
 
     // Handle form input changes
@@ -60,6 +62,7 @@ export default function FileUploader() {
 
         if (!file) {
             console.error('Please select a file');
+            toast.error('Please select a file');
             return;
         }
 
@@ -104,7 +107,14 @@ export default function FileUploader() {
                 },
             });
 
+            // Show success toast
+            toast.success('File uploaded successfully.')
             router.refresh();
+
+            //Close dialog and reset form data
+            setDialogOpen(false);
+            clearFormData();
+
         } catch (error) {
             console.error('Error during upload', error);
         } finally {
@@ -112,9 +122,18 @@ export default function FileUploader() {
         }
     };
 
+    const clearFormData = () => {
+        setFile(null);
+        setFormData({
+            title: '',
+            description: '',
+            isPublic: false,
+        });
+    }
+
     return (
         <div>
-            <Dialog>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger id="upload-trigger" className="display-none overflow-hidden p-0 m-0 -z-50">
                 </DialogTrigger>
                 <DialogContent>
@@ -178,7 +197,6 @@ export default function FileUploader() {
                                     accept="image/*"
                                     onChange={handleFileChange}
                                     className="mt-1 block w-full text-sm"
-                                    required
                                 />
                             </div>
 
