@@ -11,7 +11,7 @@ import {
 import { supabaseServer } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { signOut } from "@/app/login/actions";
+import { signOut } from "@/app/auth/authActions";
 import FileUploader from "./FileUploader";
 
 export default async function Navbar() {

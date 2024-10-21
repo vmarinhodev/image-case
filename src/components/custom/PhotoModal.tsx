@@ -13,16 +13,15 @@ export default function PhotoModal({ src, alt, onClose }: PhotoModalProps) {
     if (!src) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-            <div className="bg-gray-800 p-4 rounded-lg relative border border-gray-600 max-w-[90vw] max-h-[90vh] overflow-hidden">
-                <Button onClick={onClose} className="absolute top-2 right-2">Close</Button>
-                <div className="relative w-full h-full">
-                <div className="w-full h-full flex justify-center items-center"> 
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-20">
+            <div className="bg-white p-4 rounded-lg relative ">
+                <Button onClick={onClose} className="absolute bg-blue-600 hover:bg-blue-700 top-2 right-8 z-50">Close</Button>
+                <div className="w-full h-full">
+                <div className="relative w-[80vw] h-[80vh] flex justify-center items-center mt-10"> 
                     <Image
                         src={src}
                         alt={alt}
-                        width={600}
-                        height={600}
+                        fill
                         // sizes="(max-width: 768px) 80vw, (max-width: 1200px) 60vw, 40vw"
                         style={{ objectFit: 'contain', objectPosition: 'center' }}
                         className="rounded-lg"

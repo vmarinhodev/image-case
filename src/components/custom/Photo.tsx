@@ -14,6 +14,8 @@ interface photoProps {
     title: string,
     description: string;
     isFavourited?: boolean,
+    ownerId: string,
+    currentUserId: string,
 }
 
 const capitalizeFirstLetter = (string: string) => {
@@ -27,8 +29,11 @@ export default function Photo({
     title,
     description,
     isFavourited = false,
+    ownerId,
+    currentUserId,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
+    const isOwner = currentUserId === ownerId;
 
     function toggleModal() {
         setShowModal(!showModal)
@@ -56,20 +61,24 @@ export default function Photo({
                     {capitalizeFirstLetter(description)}
                 </p>
             </div>
+
             {/* Footer for buttons */}
             <div className="flex justify-between items-center p-4">
-                {/* Delete Button */}
-                <form action={deletePhoto}>
-                    <input type="hidden" name="photoPath" value={src} />
-                    <button
-                        type="submit"
-                        className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
-                    >
-                        <TrashIcon className="size-6" />
-                    </button>
-                </form>
+                {/* Conditionally show the Delete Button */}
+                {isOwner && (
+                    <form action={deletePhoto}>
+                        <input type="hidden" name="photoPath" value={src} />
+                        <button
+                            type="submit"
+                            className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
+                        >
+                            <TrashIcon className="size-6" />
+                        </button>
+                    </form>
+                )}
+
                 {/* Favourite Button */}
-                <form action={handleFavourites}>
+                <form action={handleFavourites} className="ml-auto">
                     <input type="hidden" name="title" value={title} />
                     <input type="hidden" name="isFavourited" value={isFavourited ? 'true' : 'false'} />
                     <button

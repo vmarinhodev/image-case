@@ -37,6 +37,8 @@ export default async function ImageGrid({
                         title={photo.title}
                         description={photo.description}
                         isFavourited={photo.isFavourited}
+                        ownerId={photo.owner}
+                        currentUserId={user.id}
                     />
                 ))
             }

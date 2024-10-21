@@ -13,7 +13,7 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { emailLogin } from "@/app/login/actions"; // Login action
+import { emailLogin } from "@/app/auth/authActions";
 
 export default function LoginForm() {
 

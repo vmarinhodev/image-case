@@ -13,7 +13,7 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { signup } from "@/app/login/actions";
+import { signup } from "@/app/auth/authActions";
 
 
 export default function SignupForm() {
