@@ -1,7 +1,7 @@
-import SignupForm from "@/components/forms/signupForm";
 import { getAuthenticatedUser } from "./auth/authUser";
 import ImageGrid from "@/components/custom/ImageGrid";
 import { fetchImagesWithFavourites } from "./actions/fetchImagesWithFavourites";
+import AuthFormsTabs from "@/components/custom/AuthFormsTab";
 
 export default async function Home() {
   const user = await getAuthenticatedUser();
@@ -12,7 +12,7 @@ export default async function Home() {
         <div className="flex items-center justify-center py-12 col-span-2 px-8">
           <div className="mx-auto grid max-w-[540px] gap-6">
             <div className="grid gap-2 text-left">
-              <SignupForm />
+              <AuthFormsTabs />
             </div>
           </div>
         </div>

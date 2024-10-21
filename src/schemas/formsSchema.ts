@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const schema = z.object({
+export const signUpSchema = z.object({
     // username: z.string().min(3, {message: 'Username must be at least 3 characters'}),
     email: z.string().min(1, {message: 'Email is required'}).email('Invalid email address'),
     display_name: z.string().min(4, {message: 'Username must be at least 4 characters'}),
@@ -11,4 +11,11 @@ export const schema = z.object({
     message: 'Passwords does not match'
   })
 
-  export type ValidationSchemaType = z.infer<typeof schema>;
+  export type SignUpValidationSchemaType = z.infer<typeof signUpSchema>;
+
+  export const loginSchema = z.object({
+    email: z.string().min(1, {message: 'Email is required'}).email('Invalid email address'),
+    password: z.string().min(6, {message: 'Password must be at least 6 characters'}),
+  })
+
+  export type LoginValidationSchemaType = z.infer<typeof loginSchema>;

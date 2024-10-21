@@ -13,6 +13,9 @@ import { emailLogin } from "./actions";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/utils/supabase/server";
 import Link from "next/link";
+import { LoginValidationSchemaType } from "@/schemas/formsSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default async function Login() {
 
@@ -44,7 +47,6 @@ export default async function Login() {
                 name="email"
                 type="email"
                 placeholder="m@example.com"
-                required
               />
             </div>
             <div className="grid gap-2">
@@ -56,7 +58,6 @@ export default async function Login() {
                 name="password"
                 id="password"
                 type="password"
-                required
               />
             </div>
             <Button formAction={emailLogin} className="w-full">
