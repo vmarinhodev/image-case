@@ -76,10 +76,12 @@ export default function FileUploader() {
             }
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `users_folder/${fileName}`;
+            const randomUUID = crypto.randomUUID();
+            const filePath = `users_folder/${randomUUID}/${fileName}`;
 
             //file to supabase storage
-            const { error: uploadError } = await supabase.storage
+            const { error: uploadError } = await supabase
+                .storage
                 .from('allimages')
                 .upload(filePath, file);
 
@@ -89,13 +91,12 @@ export default function FileUploader() {
             // image metadata to table
             const { error: insertError } = await supabase
                 .from('images')
-                .insert({
-                    user_id: user.id,
-                    image_url: fileName,
+                .update({
                     title: formData.title,
                     description: formData.description,
                     public: formData.isPublic,
-                });
+                })
+                .eq('id', randomUUID);
 
             if (insertError) {
                 throw insertError;

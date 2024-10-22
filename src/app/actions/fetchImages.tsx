@@ -14,7 +14,6 @@ export async function fetchAllImages(user: User): Promise<ImageInterface[] | nul
             console.error('Error fetching images', error);
             return []
         }
-
         return data as ImageInterface[];
 }
 
@@ -24,7 +23,7 @@ export async function getImageUrls(photos: ImageInterface[], user: User): Promis
     if (!user) return [];
 
     return Promise.all(photos.map(async (photo) => {
-        const filePath = `users_folder/${photo.image_url}`;
+        const filePath = `users_folder/${photo.id}/${photo.image_url}`;
 
         const { data, error } = await supabase
             .storage
