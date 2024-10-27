@@ -62,7 +62,6 @@ export default function FileUploader() {
         e.preventDefault();
 
         if (!file) {
-            console.error('Please select a file');
             toast.error('Please select a file');
             return;
         }

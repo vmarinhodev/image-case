@@ -10,6 +10,7 @@ export default async function ImageGrid({
     showHearted = false,
     showPrivate = false,
     noDataMessage,
+    showEdit = false,
 }: ImageGridPropsInterface) {
 
     if (!images.length) return <div>{noDataMessage || 'No images available'}</div>
@@ -39,6 +40,7 @@ export default async function ImageGrid({
                         isFavourited={photo.isFavourited}
                         ownerId={photo.owner}
                         currentUserId={user.id}
+                        showEdit={showEdit}
                     />
                 ))
             }

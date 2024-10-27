@@ -28,6 +28,7 @@ export default async function Private() {
               favourites={false}
               showHearted={true}
               showPrivate={true}
+              showEdit={true}
               noDataMessage="You have NO private images"
             />
           </div>

@@ -49,7 +49,7 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/')
-  redirect('/login')
+  redirect('/')
 }
 
 

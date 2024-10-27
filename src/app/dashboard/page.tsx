@@ -29,6 +29,7 @@ export default async function Dashboard() {
                         favourites={false}
                         showHearted={true}
                         showPrivate={true}
+                        showEdit={false}
                         noDataMessage="No images found"
                     />
                 </div>

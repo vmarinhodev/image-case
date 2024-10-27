@@ -24,5 +24,6 @@ export interface ImageGridPropsInterface {
     favourites?: boolean;
     showHearted: boolean;
     showPrivate: boolean;
+    showEdit: boolean;
     noDataMessage?: string;
 }

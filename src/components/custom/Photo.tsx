@@ -16,6 +16,7 @@ interface photoProps {
     isFavourited?: boolean,
     ownerId: string,
     currentUserId: string,
+    showEdit: boolean,
 }
 
 const capitalizeFirstLetter = (string: string) => {
@@ -31,6 +32,7 @@ export default function Photo({
     isFavourited = false,
     ownerId,
     currentUserId,
+    showEdit,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
     const isOwner = currentUserId === ownerId;
@@ -50,7 +52,9 @@ export default function Photo({
                     sizes="(max-width: 768px) 80vw, (max-width: 1200px) 60vw, 40vw"
                     style={{ objectFit: "cover", objectPosition: "center" }}
                     className="cursor-pointer"
-                    priority
+                    priority={true}
+                    blurDataURL={src}
+                    placeholder="blur"
                     onClick={() => setShowModal(true)}
                 />
             </div>
@@ -65,7 +69,7 @@ export default function Photo({
             {/* Footer for buttons */}
             <div className="flex justify-between items-center p-4">
                 {/* Conditionally show the Delete Button */}
-                {isOwner && (
+                { showEdit && isOwner ? (
                     <form action={deletePhoto}>
                         <input type="hidden" name="photoPath" value={src} />
                         <button
@@ -75,6 +79,10 @@ export default function Photo({
                             <TrashIcon className="size-6" />
                         </button>
                     </form>
+                ) : (
+                    <>
+                        <p className="mt-4 text-sm text-gray-500 leading-relaxed">{ownerId}</p>
+                    </>
                 )}
 
                 {/* Favourite Button */}

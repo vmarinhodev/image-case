@@ -9,6 +9,7 @@ export async function fetchAllImages(user: User): Promise<ImageInterface[] | nul
     const { data, error } = await supabase
         .from('images')
         .select()
+        .order('created_at', { ascending: false })
 
         if (error) {
             console.error('Error fetching images', error);
