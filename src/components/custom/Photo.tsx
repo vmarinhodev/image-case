@@ -16,6 +16,7 @@ interface photoProps {
     isFavourited?: boolean,
     ownerId: string,
     currentUserId: string,
+    userDisplayName: string;
     showEdit: boolean,
 }
 
@@ -32,6 +33,7 @@ export default function Photo({
     isFavourited = false,
     ownerId,
     currentUserId,
+    userDisplayName,
     showEdit,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
@@ -80,9 +82,7 @@ export default function Photo({
                         </button>
                     </form>
                 ) : (
-                    <>
-                        <p className="mt-4 text-sm text-gray-500 leading-relaxed">{ownerId}</p>
-                    </>
+                    <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {userDisplayName}</span>
                 )}
 
                 {/* Favourite Button */}

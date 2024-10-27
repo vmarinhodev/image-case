@@ -14,6 +14,7 @@ export default async function ImageGrid({
 }: ImageGridPropsInterface) {
 
     if (!images.length) return <div>{noDataMessage || 'No images available'}</div>
+    const userName = user?.user_metadata?.display_name;
 
     // Images that have been favourited
     const displayedImages = images.filter((photo) => {
@@ -40,6 +41,7 @@ export default async function ImageGrid({
                         isFavourited={photo.isFavourited}
                         ownerId={photo.owner}
                         currentUserId={user.id}
+                        userDisplayName={userName}
                         showEdit={showEdit}
                     />
                 ))

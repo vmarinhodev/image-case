@@ -47,6 +47,7 @@ export default async function Favourites() {
                         favourites={true}
                         showHearted={true}
                         showPrivate={false}
+                        showEdit={false}
                         noDataMessage="No favourite images found"
                         images={validPhotoObjects}
                     />

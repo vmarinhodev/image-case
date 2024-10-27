@@ -44,6 +44,9 @@ export default async function Navbar() {
                     <DropdownMenuItem asChild>
                         <Link href="/private">Private</Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href="/personal">Personal</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem>
                         <form action={signOut}>
                             <button>Logout</button>
