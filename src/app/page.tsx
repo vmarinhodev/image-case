@@ -49,6 +49,7 @@ export default async function Home() {
             favourites={false}
             showHearted={true}
             showPrivate={true}
+            showEdit={false}
             noDataMessage="No images found"
           />
         </div>
