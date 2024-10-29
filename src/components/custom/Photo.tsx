@@ -5,11 +5,19 @@ import { useState } from "react";
 import PhotoModal from "./PhotoModal";
 import deletePhoto from "@/app/actions/deletePhoto";
 import handleFavourites from "@/app/actions/handleFavourites";
-import { HeartFilledIcon, HeartIcon, TrashIcon } from "@radix-ui/react-icons";
+import {
+    HeartFilledIcon,
+    HeartIcon,
+    Pencil1Icon,
+    TrashIcon
+} from "@radix-ui/react-icons";
+import { useFileUploader } from "./FileUploaderContext";
 
 
 interface photoProps {
     src: string,
+    imageId: string,
+    imageName: string,
     alt: string,
     title: string,
     description: string;
@@ -18,7 +26,8 @@ interface photoProps {
     currentUserId: string,
     userDisplayName: string;
     showEdit: boolean,
-}
+    editingImageId: string,
+};
 
 const capitalizeFirstLetter = (string: string) => {
     if (!string) return "";
@@ -27,6 +36,8 @@ const capitalizeFirstLetter = (string: string) => {
 
 export default function Photo({
     src,
+    imageId,
+    imageName,
     alt,
     title,
     description,
@@ -35,9 +46,11 @@ export default function Photo({
     currentUserId,
     userDisplayName,
     showEdit,
+    editingImageId,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
     const isOwner = currentUserId === ownerId;
+    const { openUploaderDialog } = useFileUploader();
 
     function toggleModal() {
         setShowModal(!showModal)
@@ -70,17 +83,32 @@ export default function Photo({
 
             {/* Footer for buttons */}
             <div className="flex justify-between items-center p-4">
-                {/* Conditionally show the Delete Button */}
-                { showEdit && isOwner ? (
-                    <form action={deletePhoto}>
-                        <input type="hidden" name="photoPath" value={src} />
-                        <button
-                            type="submit"
-                            className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
-                        >
-                            <TrashIcon className="size-6" />
-                        </button>
-                    </form>
+                {/* Conditionally show the Delete and Edit Buttons */}
+                {showEdit && isOwner ? (
+                    <>
+                        {/*Delete */}
+                        <form action={deletePhoto}>
+                            <input type="hidden" name="photoPath" value={src} />
+                            <button
+                                type="submit"
+                                className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
+                            >
+                                <TrashIcon className="size-6" />
+                            </button>
+                        </form>
+                        {/*Edit */}
+                            <button
+                                type="submit"
+                                onClick={() => 
+                                    openUploaderDialog(
+                                    { imageId, title, description, imageName, isPublic: true }, 
+                                    editingImageId,
+                                    )
+                                }
+                                className="text-red-500 cursor-pointer hover:text-red-600">
+                                <Pencil1Icon className="size-6" />
+                            </button>
+                    </>
                 ) : (
                     <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {userDisplayName}</span>
                 )}

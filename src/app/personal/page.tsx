@@ -19,7 +19,7 @@ export default async function Personal() {
       <main className="min-h-screen relative p-10">
         <div className="container mx-auto">
           <div className="mb-6">
-            <h1 className="text-4xl font-bold mb-4">DashBoard</h1>
+            <h1 className="text-4xl font-bold mb-4">Personal</h1>
           </div>
           <div className="w-full">
             <ImageGrid

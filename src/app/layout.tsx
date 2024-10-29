@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
 import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
 import { Toaster } from "sonner";
+import { FileUploaderProvider } from "@/components/custom/FileUploaderContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,12 +29,12 @@ export default function RootLayout({
 }>) {
   return (
     <ReactQueryClientProvider>
+      <FileUploaderProvider>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         > 
           <Navbar />
-          {/* <FileUploader /> */}
           <Toaster
             toastOptions={{
                 classNames: {
@@ -46,6 +47,7 @@ export default function RootLayout({
           {children}
         </body>
       </html>
+      </FileUploaderProvider>
     </ReactQueryClientProvider>
   );
 }

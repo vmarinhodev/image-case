@@ -25,7 +25,7 @@ export async function getImageUrls(photos: ImageInterface[], user: User): Promis
 
     return Promise.all(photos.map(async (photo) => {
         const filePath = `users_folder/${photo.id}/${photo.image_url}`;
-
+        
         const { data, error } = await supabase
             .storage
             .from('allimages')
@@ -35,12 +35,16 @@ export async function getImageUrls(photos: ImageInterface[], user: User): Promis
             console.error('Error generating url', error)
             return null;
         }
+
         return {
             image_url: data.signedUrl ?? '',
+            imageName: photo.image_url,
             title: photo.title,
             privacy: photo.public,
             owner: photo.user_id,
             description: photo.description,
+            imageId: photo.id,
+            objectId: photo.object_id,
         };
     }));
 };
