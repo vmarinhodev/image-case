@@ -9,27 +9,22 @@ export default async function Private() {
     return <div>You need to be logged in to see this page.</div>
   }
 
-  const { images: privateImages } = await fetchImagesWithFavourites(user, { onlyPrivate: true });
-
-  if (!privateImages.length) {
-    return <div>No private images to display.</div>
-  }
+  const { images: privateImages } = await fetchImagesWithFavourites(user, { onlyPrivate: true, fetchFavourites: true });
 
     return (
       <main className="min-h-screen relative p-10">
         <div className="container mx-auto">
           <div className="mb-6">
-            <h1 className="text-4xl font-bold mb-4">DashBoard</h1>
+            <h1 className="text-4xl font-bold mb-4">Private</h1>
           </div>
           <div className="w-full">
             <ImageGrid
               user={user}
               images={privateImages}
-              favourites={false}
               showHearted={true}
               showPrivate={true}
-              showEdit={false}
-              noDataMessage="You have NO private images"
+              showEdit={true}
+              noDataMessage="You have NO private images to display"
             />
           </div>
         </div>

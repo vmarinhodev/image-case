@@ -26,13 +26,12 @@ export default function FileUploader() {
     // Reference to the hidden button
     const triggerRef = useRef<HTMLButtonElement>(null);
 
-    useEffect(() => {
-        if (editingImageId) {
-            console.log("Editing image with ID:", editingImageId);
-            // Load data if editing
-        }
-    }, [editingImageId]);
-    // Automatically click the hidden trigger button to open the dialog
+    // useEffect(() => {
+    //     if (editingImageId) {
+    //         // Load data if editing
+    //     }
+    // }, [editingImageId]);
+    // // Automatically click the hidden trigger button to open the dialog
     useEffect(() => {
         console.log("useEffect triggered with isUploaderOpen:", isUploaderOpen, editingImageId);
         if (isUploaderOpen && triggerRef.current) {
@@ -89,13 +88,13 @@ export default function FileUploader() {
             const filePath = editingImageId ? formData.path : ''; 
             const displayName = user?.user_metadata.display_name;
             const randomUUID = crypto.randomUUID();
+            const fileExt = file?.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+
+            console.log("filepath", filePath)
 
             if (file) {
-                
-                const fileExt = file?.name.split('.').pop();
-                const fileName = `${Math.random()}.${fileExt}`;
                 const filePath = `users_folder/${randomUUID}/${fileName}`;
-                console.log('fileName', fileExt)
 
             //file to supabase storage
             const { error: uploadError } = await supabase
@@ -108,8 +107,6 @@ export default function FileUploader() {
              // If editing, you may want to delete the previous image file here
             }
 
-            
-
             // image metadata to table
             const { error: insertError } = await supabase
                 .from('images')
@@ -120,7 +117,7 @@ export default function FileUploader() {
                     public: formData.isPublic,
                     user_name: displayName,
                     path: filePath || undefined,
-                    image_url: formData.imageName,
+                    image_url: fileName,
                     user_id: user.id
                 })
 
@@ -224,9 +221,6 @@ export default function FileUploader() {
                         </div>
                         </>
                         }
-
-
-                        
 
                         <DialogFooter>
                             <button

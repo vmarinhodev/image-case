@@ -2,13 +2,16 @@
 
 import { supabaseServer } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-
+import { headers } from "next/headers";
 
 //Handle Favourite Images
 export default async function handleFavourites(formData: FormData): Promise<void> {
     const supabase = supabaseServer();
     const title = formData.get('title') as string | null;
+    const objId = formData.get('objId') as string | null;
     const isFavourited = formData.get('isFavourited') as string | null;
+    const headersList = headers();
+    const fullUrl = headersList.get('referer') || "";
 
     // Check for missing fields
     if (!title || !isFavourited) {
@@ -27,7 +30,7 @@ export default async function handleFavourites(formData: FormData): Promise<void
         const { error: deleteError } = await supabase
             .from('favourites')
             .delete()
-            .match({ user_id: user.id, image_name: title });
+            .match({ user_id: user.id, image_name: title, object_id: objId});
 
         if (deleteError) {
             console.error('Error removing image from favourites')
@@ -37,7 +40,7 @@ export default async function handleFavourites(formData: FormData): Promise<void
     } else {
         const { error: insertError } = await supabase
             .from('favourites')
-            .insert([{ user_id: user.id, image_name: title }]);
+            .insert([{ user_id: user.id, image_name: title, object_id: objId}]);
 
         if (insertError) {
             console.error('Error adding image into favourites')
@@ -46,5 +49,5 @@ export default async function handleFavourites(formData: FormData): Promise<void
     }
 
     // Revalidate the path to update the cache
-    revalidatePath('/');
+    revalidatePath(`${fullUrl}`);
 }

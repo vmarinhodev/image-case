@@ -7,29 +7,25 @@ import Photo from "./Photo";
 export default function ImageGrid({
     user,
     images,
-    favourites = false,
     showHearted = false,
     showPrivate = false,
     noDataMessage,
     showEdit = false,
 }: ImageGridPropsInterface) {
 
+    // Fallback in case there are no images returned from fetchImages
     if (!images.length) return <div>{noDataMessage || 'No images available'}</div>
-    const userName = user?.user_metadata?.display_name;
 
     // Images that have been favourited
     const displayedImages = images.filter((photo) => {
-        // console.log('photo image Grid', photo)
-        const isFavouritedCondition = favourites ? photo.isFavourited : true;
-        const isShowAllCondition = showHearted;
-
-
+        
+        const isFavouritedCondition = photo.isFavourited === true;
+        const isShowAllCondition = showHearted && isFavouritedCondition;
         const isPrivateCondition = 
             photo.privacy === false ||
             (photo.privacy === true && showPrivate && photo.owner === user.id)
-
-        return isFavouritedCondition && isShowAllCondition && isPrivateCondition;
-    })
+        return isFavouritedCondition || isShowAllCondition || isPrivateCondition;
+    });
 
     return (
         <>
@@ -41,13 +37,14 @@ export default function ImageGrid({
                         src={photo.image_url}
                         imageName={photo.imageName}
                         imageId={photo.imageId}
+                        objectId={photo.objectId}
                         alt={photo.title}
                         title={photo.title}
                         description={photo.description}
                         isFavourited={photo.isFavourited}
                         ownerId={photo.owner}
                         currentUserId={user.id}
-                        userDisplayName={userName}
+                        ownerName={photo.ownerName}
                         showEdit={showEdit}
                         editingImageId={photo.imageId}
                     />

@@ -4,6 +4,7 @@ export interface ImageInterface {
     id: string;
     object_id: string;
     user_id: string;
+    user_name: string;
     image_url: string;
     title: string;
     description: string;
@@ -14,10 +15,12 @@ export interface SignedImageUrlInterface {
     image_url: string;
     imageName: string;
     imageId: string;
+    objectId: string;
     title: string;
     description: string;
     privacy: boolean;
     owner: string;
+    ownerName: string;
     isFavourited?: boolean;
 }
 

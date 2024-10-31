@@ -9,11 +9,7 @@ export default async function Personal() {
     return <div>You need to be logged in to see this page.</div>
   }
 
-  const { images: privateImages } = await fetchImagesWithFavourites(user, { onlyPrivate: true });
-
-  if (!privateImages.length) {
-    return <div>No private images to display.</div>
-  }
+  const { images: personalImages } = await fetchImagesWithFavourites(user, { allPersonal: true, fetchFavourites: true });
 
     return (
       <main className="min-h-screen relative p-10">
@@ -24,12 +20,11 @@ export default async function Personal() {
           <div className="w-full">
             <ImageGrid
               user={user}
-              images={privateImages}
-              favourites={false}
+              images={personalImages}
               showHearted={true}
               showPrivate={true}
               showEdit={true}
-              noDataMessage="You have NO private images"
+              noDataMessage="You have NO personal images yet."
             />
           </div>
         </div>

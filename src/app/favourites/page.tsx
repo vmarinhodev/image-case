@@ -13,16 +13,9 @@ export default async function Favourites() {
 
     // Fetch the user's favorite images names
     const favouriteImageNames = await fetchUserFavouriteImages(user);
-
-    // Check if the user has any favorites
-    if (!favouriteImageNames?.length) {
-        return <div>No favourite images found.</div>;
-    }
-
     const allImages: ImageInterface[] = await fetchAllImages(user) || [];
-
     const favouriteImages: ImageInterface[] = allImages
-        .filter((img) => favouriteImageNames.includes(img.title)
+        .filter((img) => favouriteImageNames.includes(img.object_id)
         )
 
     // Get the URLs for the favorite images
@@ -44,11 +37,10 @@ export default async function Favourites() {
                 <div className="w-full">
                     <ImageGrid
                         user={user}
-                        favourites={true}
                         showHearted={true}
-                        showPrivate={false}
+                        showPrivate={true}
                         showEdit={false}
-                        noDataMessage="No favourite images found"
+                        noDataMessage="You have NO favourite images yet."
                         images={validPhotoObjects}
                     />
                 </div>

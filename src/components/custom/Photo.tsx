@@ -17,14 +17,15 @@ import { useFileUploader } from "./FileUploaderContext";
 interface photoProps {
     src: string,
     imageId: string,
+    objectId: string,
     imageName: string,
     alt: string,
     title: string,
     description: string;
     isFavourited?: boolean,
     ownerId: string,
+    ownerName: string,
     currentUserId: string,
-    userDisplayName: string;
     showEdit: boolean,
     editingImageId: string,
 };
@@ -37,14 +38,15 @@ const capitalizeFirstLetter = (string: string) => {
 export default function Photo({
     src,
     imageId,
+    objectId,
     imageName,
     alt,
     title,
     description,
     isFavourited = false,
     ownerId,
+    ownerName,
     currentUserId,
-    userDisplayName,
     showEdit,
     editingImageId,
 }: Readonly<photoProps>) {
@@ -101,7 +103,7 @@ export default function Photo({
                                 type="submit"
                                 onClick={() => 
                                     openUploaderDialog(
-                                    { imageId, title, description, imageName, isPublic: true }, 
+                                    { imageId, title, description, imageName, isPublic: true, objectId }, 
                                     editingImageId,
                                     )
                                 }
@@ -110,12 +112,13 @@ export default function Photo({
                             </button>
                     </>
                 ) : (
-                    <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {userDisplayName}</span>
+                    <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {ownerName}</span>
                 )}
 
                 {/* Favourite Button */}
                 <form action={handleFavourites} className="ml-auto">
                     <input type="hidden" name="title" value={title} />
+                    <input type="hidden" name="objId" value={objectId} />
                     <input type="hidden" name="isFavourited" value={isFavourited ? 'true' : 'false'} />
                     <button
                         type="submit"
