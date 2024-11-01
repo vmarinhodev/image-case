@@ -8,27 +8,14 @@ import handleFavourites from "@/app/actions/handleFavourites";
 import {
     HeartFilledIcon,
     HeartIcon,
+    LockClosedIcon,
+    LockOpen2Icon,
     Pencil1Icon,
     TrashIcon
 } from "@radix-ui/react-icons";
 import { useFileUploader } from "./FileUploaderContext";
-
-
-interface photoProps {
-    src: string,
-    imageId: string,
-    objectId: string,
-    imageName: string,
-    alt: string,
-    title: string,
-    description: string;
-    isFavourited?: boolean,
-    ownerId: string,
-    ownerName: string,
-    currentUserId: string,
-    showEdit: boolean,
-    editingImageId: string,
-};
+// import handlePrivacy from "@/app/actions/handlePrivacy";
+import { photoProps } from "@/app/types";
 
 const capitalizeFirstLetter = (string: string) => {
     if (!string) return "";
@@ -37,20 +24,22 @@ const capitalizeFirstLetter = (string: string) => {
 
 export default function Photo({
     src,
+    imageName,
     imageId,
     objectId,
-    imageName,
+    privacy,
     alt,
     title,
     description,
     isFavourited = false,
     ownerId,
-    ownerName,
     currentUserId,
+    ownerName,
     showEdit,
     editingImageId,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
+    // const [privacyState, setPrivacyState] = useState(privacy);
     const isOwner = currentUserId === ownerId;
     const { openUploaderDialog } = useFileUploader();
 
@@ -100,23 +89,34 @@ export default function Photo({
                             </button>
                         </form>
                         {/*Edit */}
+                        <button
+                            type="submit"
+                            onClick={() =>
+                                openUploaderDialog(
+                                    {
+                                        imageId,
+                                        title,
+                                        description,
+                                        imageName,
+                                        isPublic: false,
+                                        editingImageId,
+                                    },
+                                )
+                            }
+                            className="text-red-500 cursor-pointer hover:text-red-600 ml-1">
+                            <Pencil1Icon className="size-6" />
+                        </button>
+                        {/* Privacy Button */}
+                        <form className="ml-1">
+                            <input type="hidden" name="isPrivate" value={privacy ? 'true' : 'false'} />
+                            <input type="hidden" name="imageId" value={imageId} />
                             <button
                                 type="submit"
-                                onClick={() => 
-                                    openUploaderDialog(
-                                        {
-                                            imageId,
-                                            title,
-                                            description,
-                                            imageName,
-                                            isPublic: false,
-                                            editingImageId,
-                                        },
-                                    )
-                                }
+                                // onClick={() => handlePrivacy(imageId, privacyState, setPrivacyState)}
                                 className="text-red-500 cursor-pointer hover:text-red-600">
-                                <Pencil1Icon className="size-6" />
+                                {privacy ? <LockClosedIcon className="size-6" /> : <LockOpen2Icon className="size-6" />}
                             </button>
+                        </form>
                     </>
                 ) : (
                     <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {ownerName}</span>

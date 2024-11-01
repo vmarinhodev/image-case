@@ -34,7 +34,7 @@ export default function FileUploader() {
     // Reference to the hidden button
     const triggerRef = useRef<HTMLButtonElement>(null);
 
-    console.log("formData fileUploader", formData)
+    // console.log("formData fileUploader", formData)
     useEffect(() => {
         if (isUploaderOpen && triggerRef.current) {
             triggerRef.current.click();

@@ -17,7 +17,6 @@ export default function ImageGrid({
 
     // Images that have been favourited
     const displayedImages = images.filter((photo) => {
-        
         const isFavouritedCondition = photo.isFavourited === true;
         const isShowAllCondition = showHearted && isFavouritedCondition;
         const isPrivateCondition = 
@@ -37,6 +36,7 @@ export default function ImageGrid({
                         imageName={photo.imageName}
                         imageId={photo.imageId}
                         objectId={photo.objectId}
+                        privacy={photo.privacy}
                         alt={photo.title}
                         title={photo.title}
                         description={photo.description}

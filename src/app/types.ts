@@ -1,4 +1,5 @@
-import { User } from '@supabase/supabase-js'
+import { User } from '@supabase/supabase-js';
+import { Dispatch, SetStateAction } from "react";
 
 export interface ImageInterface {
     id: string;
@@ -32,6 +33,23 @@ export interface ImageGridPropsInterface {
     noDataMessage?: string;
 }
 
+export interface photoProps {
+    src: string,
+    imageName: string,
+    imageId: string,
+    objectId: string,
+    privacy: boolean,
+    alt: string,
+    title: string,
+    description: string;
+    isFavourited?: boolean,
+    ownerId: string,
+    currentUserId: string,
+    ownerName: string,
+    showEdit: boolean,
+    editingImageId: string,
+};
+
 export interface FormDataInterface {
     path?: string;
     imageName: string;
@@ -58,4 +76,10 @@ export interface FileUploaderInterface {
     setFile?: React.Dispatch<React.SetStateAction<File | null>>;
     setDialogOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     clearEdit?: () => void;
+}
+
+export interface HandlePrivacyInterface {
+    imageId: string;
+    currentPrivacy: boolean;
+    setPrivacyState: React.Dispatch<React.SetStateAction<boolean>>;
 }
