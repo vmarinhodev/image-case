@@ -1,7 +1,7 @@
 
 import { getAuthenticatedUser } from "@/app/auth/authUser";
-import ImageGrid from "@/components/custom/ImageGrid";
 import { fetchImagesWithFavourites } from "../actions/fetchImagesWithFavourites";
+import ImageGrid from "@/components/custom/ImageGrid";
 
 export default async function Dashboard() {
     const user = await getAuthenticatedUser();
@@ -23,7 +23,6 @@ export default async function Dashboard() {
                         user={user}
                         images={allImages}
                         showHearted={true}
-                        showPrivate={true}
                         showEdit={false}
                         noDataMessage="There are No images to be displayed in your Dashboard"
                     />

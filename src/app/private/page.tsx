@@ -1,6 +1,6 @@
 import { getAuthenticatedUser } from "@/app/auth/authUser";
-import ImageGrid from "@/components/custom/ImageGrid";
 import { fetchImagesWithFavourites } from "../actions/fetchImagesWithFavourites";
+import ImageGrid from "@/components/custom/ImageGrid";
 
 export default async function Private() {
   const user = await getAuthenticatedUser();
@@ -22,7 +22,6 @@ export default async function Private() {
               user={user}
               images={privateImages}
               showHearted={true}
-              showPrivate={true}
               showEdit={true}
               noDataMessage="You have NO private images to display"
             />

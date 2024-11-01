@@ -27,9 +27,7 @@ export interface SignedImageUrlInterface {
 export interface ImageGridPropsInterface {
     user: User;
     images: SignedImageUrlInterface[];
-    favourites?: boolean;
     showHearted: boolean;
-    showPrivate: boolean;
     showEdit: boolean;
     noDataMessage?: string;
 }
@@ -43,6 +41,14 @@ export interface FormDataInterface {
     isPublic: boolean;
     editingImageId?: string;
 }
+
+export interface FetchImagesInterface {
+    fetchFavourites?: boolean,
+    allPersonal?: boolean,
+    allFavourited?: boolean,
+    onlyPrivate?: boolean,
+    onlyPublic?: boolean
+} 
 
 export interface FileUploaderInterface {
     editingImageId: string | null;

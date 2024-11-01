@@ -21,19 +21,21 @@ export default function FileUploader() {
     const [uploading, setUploading] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const router = useRouter();
-    const { isUploaderOpen, setIsUploaderOpen, closeUploaderDialog, setFormData, editingImageId, formData, clearFormData } = useFileUploader();
+    const {
+        isUploaderOpen,
+        setIsUploaderOpen,
+        closeUploaderDialog,
+        setFormData,
+        editingImageId,
+        formData,
+        clearFormData
+    } = useFileUploader();
 
     // Reference to the hidden button
     const triggerRef = useRef<HTMLButtonElement>(null);
 
-    // useEffect(() => {
-    //     if (editingImageId) {
-    //         // Load data if editing
-    //     }
-    // }, [editingImageId]);
-    // // Automatically click the hidden trigger button to open the dialog
+    console.log("formData fileUploader", formData)
     useEffect(() => {
-        console.log("useEffect triggered with isUploaderOpen:", isUploaderOpen, editingImageId);
         if (isUploaderOpen && triggerRef.current) {
             triggerRef.current.click();
         }
@@ -55,23 +57,8 @@ export default function FileUploader() {
         setFile(fileInput);
     };
 
-    // const handleFileUpsert = async () => {
-    //     // image metadata update at table
-    //     const { error: upsertError } = await supabase
-    //         .from('images')
-    //         .upsert({
-    //             title: formData.title,
-    //             description: formData.description,
-    //             public: formData.isPublic,
-    //         })
-    //         .eq('id', formData.imageId);
-
-    //     if (upsertError) throw upsertError;
-    // }
-
     const handleFileUpload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
         if (!file && !editingImageId) {
             toast.error('Please select a file');
             return;
@@ -79,35 +66,31 @@ export default function FileUploader() {
 
         try {
             setUploading(true);
-
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) {
                 throw new Error('User not authenticated');
             }
 
-            const filePath = editingImageId ? formData.path : ''; 
+            // File to supabase storage
+            console.log("editingImageId fileUploader", editingImageId)
+            
             const displayName = user?.user_metadata.display_name;
             const randomUUID = crypto.randomUUID();
             const fileExt = file?.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
-
-            console.log("filepath", filePath)
-
-            if (file) {
+            if (file && !editingImageId) {
                 const filePath = `users_folder/${randomUUID}/${fileName}`;
-
-            //file to supabase storage
-            const { error: uploadError } = await supabase
+                const { error: uploadError } = await supabase
                 .storage
                 .from('allimages')
                 .upload(filePath, file as File);
 
             if (uploadError) throw uploadError;
 
-             // If editing, you may want to delete the previous image file here
+             // If editing, you may want to give user chance to update the previous image file here
             }
 
-            // image metadata to table
+            // Image metadata to table
             const { error: insertError } = await supabase
                 .from('images')
                 .upsert({
@@ -116,8 +99,7 @@ export default function FileUploader() {
                     description: formData.description,
                     public: formData.isPublic,
                     user_name: displayName,
-                    path: filePath || undefined,
-                    image_url: fileName,
+                    image_url: formData.imageName || fileName,
                     user_id: user.id
                 })
 

@@ -8,7 +8,6 @@ export default function ImageGrid({
     user,
     images,
     showHearted = false,
-    showPrivate = false,
     noDataMessage,
     showEdit = false,
 }: ImageGridPropsInterface) {
@@ -23,7 +22,7 @@ export default function ImageGrid({
         const isShowAllCondition = showHearted && isFavouritedCondition;
         const isPrivateCondition = 
             photo.privacy === false ||
-            (photo.privacy === true && showPrivate && photo.owner === user.id)
+            (photo.privacy === true && photo.owner === user.id)
         return isFavouritedCondition || isShowAllCondition || isPrivateCondition;
     });
 

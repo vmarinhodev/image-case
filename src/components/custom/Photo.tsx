@@ -91,6 +91,7 @@ export default function Photo({
                         {/*Delete */}
                         <form action={deletePhoto}>
                             <input type="hidden" name="photoPath" value={src} />
+                            <input type="hidden" name="objectId" value={objectId} />
                             <button
                                 type="submit"
                                 className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
@@ -103,8 +104,14 @@ export default function Photo({
                                 type="submit"
                                 onClick={() => 
                                     openUploaderDialog(
-                                    { imageId, title, description, imageName, isPublic: true, objectId }, 
-                                    editingImageId,
+                                        {
+                                            imageId,
+                                            title,
+                                            description,
+                                            imageName,
+                                            isPublic: false,
+                                            editingImageId,
+                                        },
                                     )
                                 }
                                 className="text-red-500 cursor-pointer hover:text-red-600">

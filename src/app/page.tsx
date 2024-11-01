@@ -32,10 +32,6 @@ export default async function Home() {
 
   const { images: allImages } = await fetchImagesWithFavourites(user, { fetchFavourites: true });
 
-  if (!allImages.length) {
-    return <div>No Images found.</div>
-  }
-
   return (
     <main className="min-h-screen relative p-10">
       <div className="container mx-auto">
@@ -46,11 +42,9 @@ export default async function Home() {
           <ImageGrid
             user={user}
             images={allImages}
-            favourites={false}
             showHearted={true}
-            showPrivate={true}
             showEdit={false}
-            noDataMessage="No images found"
+            noDataMessage="No images found try and upload a new Image "
           />
         </div>
       </div>

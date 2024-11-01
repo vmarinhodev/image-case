@@ -1,6 +1,6 @@
 import { getAuthenticatedUser } from "@/app/auth/authUser";
-import ImageGrid from "@/components/custom/ImageGrid";
 import { fetchImagesWithFavourites } from "../actions/fetchImagesWithFavourites";
+import ImageGrid from "@/components/custom/ImageGrid";
 
 export default async function Personal() {
   const user = await getAuthenticatedUser();
@@ -22,7 +22,6 @@ export default async function Personal() {
               user={user}
               images={personalImages}
               showHearted={true}
-              showPrivate={true}
               showEdit={true}
               noDataMessage="You have NO personal images yet."
             />

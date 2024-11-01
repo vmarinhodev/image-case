@@ -20,43 +20,6 @@ export async function fetchAllImages(user: User): Promise<ImageInterface[] | nul
         return data as ImageInterface[];
 }
 
-// Fetch Private Images
-export async function fetchUserPrivateImages(user: User): Promise<ImageInterface[] | null> {
-    const supabase = supabaseServer();
-    if (!user) return [];
-
-    const { data, error } = await supabase
-        .from('images')
-        .select()
-        .eq('user_id', user.id)
-        .eq('public', true)
-
-        if (error) {
-            console.error('Error fetching private images', error);
-            return []
-        }
-
-        return data as ImageInterface[];
-}
-
-// Fetch Private Images
-export async function fetchUserPersonalImages(user: User): Promise<ImageInterface[] | null> {
-    const supabase = supabaseServer();
-    if (!user) return [];
-
-    const { data, error } = await supabase
-        .from('images')
-        .select()
-        .eq('user_id', user.id)
-
-        if (error) {
-            console.error('Error fetching personal images', error);
-            return []
-        }
-
-        return data as ImageInterface[];
-}
-
 //Fetch user favourite Images
 export async function fetchUserFavouriteImages(user: User): Promise<string[]> {
     const supabase = supabaseServer();

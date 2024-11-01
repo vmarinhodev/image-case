@@ -37,16 +37,14 @@ export function FileUploaderProvider({ children }: { children: React.ReactNode }
         setFormData({ imageId : "", title: "", description: "", imageName: "", isPublic: false });
     };
     
-    const openUploaderDialog = (formData?: FormDataInterface, editingImageId?: string) => {
+    const openUploaderDialog = (formData?: FormDataInterface & { editingImageId?: string }) => {
+        console.log('editingImageId Context', formData?.editingImageId)
         setIsUploaderOpen(true);
-        console.log('editingImageId', editingImageId)
         if (formData) {
-            console.log('ddata', formData)
             setFormData(formData)
-        };
-
-        if (editingImageId) {
-            setEditingImageId(editingImageId)
+            if (formData?.editingImageId) {
+                setEditingImageId(formData?.editingImageId)
+            };
         };
     };
 
