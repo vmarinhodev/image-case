@@ -423,6 +423,12 @@ GRANT ALL ON TABLE "public"."favourites" TO "service_role";
 
 
 
+GRANT ALL ON SEQUENCE "public"."favourites_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."favourites_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."favourites_id_seq" TO "service_role";
+
+
+
 GRANT ALL ON TABLE "public"."images" TO "anon";
 GRANT ALL ON TABLE "public"."images" TO "authenticated";
 GRANT ALL ON TABLE "public"."images" TO "service_role";
