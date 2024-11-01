@@ -5,20 +5,17 @@ import { useState } from "react";
 import PhotoModal from "./PhotoModal";
 import deletePhoto from "@/app/actions/deletePhoto";
 import handleFavourites from "@/app/actions/handleFavourites";
-import { HeartFilledIcon, HeartIcon, TrashIcon } from "@radix-ui/react-icons";
-
-
-interface photoProps {
-    src: string,
-    alt: string,
-    title: string,
-    description: string;
-    isFavourited?: boolean,
-    ownerId: string,
-    currentUserId: string,
-    userDisplayName: string;
-    showEdit: boolean,
-}
+import {
+    HeartFilledIcon,
+    HeartIcon,
+    LockClosedIcon,
+    LockOpen2Icon,
+    Pencil1Icon,
+    TrashIcon
+} from "@radix-ui/react-icons";
+import { useFileUploader } from "./FileUploaderContext";
+// import handlePrivacy from "@/app/actions/handlePrivacy";
+import { photoProps } from "@/app/types";
 
 const capitalizeFirstLetter = (string: string) => {
     if (!string) return "";
@@ -27,17 +24,24 @@ const capitalizeFirstLetter = (string: string) => {
 
 export default function Photo({
     src,
+    imageName,
+    imageId,
+    objectId,
+    privacy,
     alt,
     title,
     description,
     isFavourited = false,
     ownerId,
     currentUserId,
-    userDisplayName,
+    ownerName,
     showEdit,
+    editingImageId,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
+    // const [privacyState, setPrivacyState] = useState(privacy);
     const isOwner = currentUserId === ownerId;
+    const { openUploaderDialog } = useFileUploader();
 
     function toggleModal() {
         setShowModal(!showModal)
@@ -70,24 +74,58 @@ export default function Photo({
 
             {/* Footer for buttons */}
             <div className="flex justify-between items-center p-4">
-                {/* Conditionally show the Delete Button */}
-                { showEdit && isOwner ? (
-                    <form action={deletePhoto}>
-                        <input type="hidden" name="photoPath" value={src} />
+                {/* Conditionally show the Delete and Edit Buttons */}
+                {showEdit && isOwner ? (
+                    <>
+                        {/*Delete */}
+                        <form action={deletePhoto}>
+                            <input type="hidden" name="photoPath" value={src} />
+                            <input type="hidden" name="objectId" value={objectId} />
+                            <button
+                                type="submit"
+                                className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
+                            >
+                                <TrashIcon className="size-6" />
+                            </button>
+                        </form>
+                        {/*Edit */}
                         <button
                             type="submit"
-                            className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
-                        >
-                            <TrashIcon className="size-6" />
+                            onClick={() =>
+                                openUploaderDialog(
+                                    {
+                                        imageId,
+                                        title,
+                                        description,
+                                        imageName,
+                                        isPublic: false,
+                                        editingImageId,
+                                    },
+                                )
+                            }
+                            className="text-red-500 cursor-pointer hover:text-red-600 ml-1">
+                            <Pencil1Icon className="size-6" />
                         </button>
-                    </form>
+                        {/* Privacy Button */}
+                        <form className="ml-1">
+                            <input type="hidden" name="isPrivate" value={privacy ? 'true' : 'false'} />
+                            <input type="hidden" name="imageId" value={imageId} />
+                            <button
+                                type="submit"
+                                // onClick={() => handlePrivacy(imageId, privacyState, setPrivacyState)}
+                                className="text-red-500 cursor-pointer hover:text-red-600">
+                                {privacy ? <LockClosedIcon className="size-6" /> : <LockOpen2Icon className="size-6" />}
+                            </button>
+                        </form>
+                    </>
                 ) : (
-                    <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {userDisplayName}</span>
+                    <span className="text-sm font-bold text-gray-500 leading-relaxed">@ {ownerName}</span>
                 )}
 
                 {/* Favourite Button */}
                 <form action={handleFavourites} className="ml-auto">
                     <input type="hidden" name="title" value={title} />
+                    <input type="hidden" name="objId" value={objectId} />
                     <input type="hidden" name="isFavourited" value={isFavourited ? 'true' : 'false'} />
                     <button
                         type="submit"

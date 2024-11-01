@@ -1,7 +1,7 @@
 
 import { getAuthenticatedUser } from "@/app/auth/authUser";
-import ImageGrid from "@/components/custom/ImageGrid";
 import { fetchImagesWithFavourites } from "../actions/fetchImagesWithFavourites";
+import ImageGrid from "@/components/custom/ImageGrid";
 
 export default async function Dashboard() {
     const user = await getAuthenticatedUser();
@@ -12,25 +12,19 @@ export default async function Dashboard() {
 
     const { images: allImages } = await fetchImagesWithFavourites(user, { fetchFavourites: true });
 
-    if (!allImages.length) {
-        return <div>No Images found.</div>
-    }
-
     return (
         <main className="min-h-screen relative p-10">
             <div className="container mx-auto">
                 <div className="mb-6">
-                    <h1 className="text-4xl font-bold mb-4">DashBoard</h1>
+                    <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
                 </div>
                 <div className="w-full">
                     <ImageGrid
                         user={user}
                         images={allImages}
-                        favourites={false}
                         showHearted={true}
-                        showPrivate={true}
                         showEdit={false}
-                        noDataMessage="No images found"
+                        noDataMessage="There are No images to be displayed in your Dashboard"
                     />
                 </div>
             </div>

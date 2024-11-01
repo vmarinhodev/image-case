@@ -1,8 +1,10 @@
 'use server'
 import { supabaseServer } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 function extractFilePath(url: string) {
+
     const parts = url.split('/users_folder/')
     if (parts.length < 2) {
         console.error('Invalid URL format')
@@ -19,9 +21,14 @@ function extractFilePath(url: string) {
 }
 
 export default async function deletePhoto(formData: FormData) {
+    const headersList = headers();
+    const fullUrl = headersList.get('referer') || "";
+    console.log('fullUrl', fullUrl)
     const supabase = supabaseServer();
     const src = formData.get('photoPath')
-    console.log('src', src)
+    const objectId = formData.get('objectId')
+    // console.log('src', src)
+    console.log('objectId', objectId)
 
     if (typeof src !== 'string') {
         console.error('Photo data is missing or invalid');
@@ -29,6 +36,7 @@ export default async function deletePhoto(formData: FormData) {
     };
 
     const filePath = extractFilePath(src);
+    console.log('filePath', filePath)
 
     if (!filePath) {
         console.error('Failed to extract filePath');
@@ -42,7 +50,7 @@ export default async function deletePhoto(formData: FormData) {
     const { error: dbError } = await supabase
         .from('images')
         .delete()
-        .eq('image_url', src);
+        .eq('object_id', objectId);
 
     if (dbError) {
         console.error('Error deleting record from database:', dbError.message);
@@ -77,5 +85,6 @@ export default async function deletePhoto(formData: FormData) {
 
     console.log('Image data deleted successfully from database');
 
-    revalidatePath('/')
+     // Revalidate the path to update the cache
+     revalidatePath(`${fullUrl}`);
 }
