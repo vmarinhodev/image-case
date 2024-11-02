@@ -72,7 +72,6 @@ export default function FileUploader() {
             }
 
             // File to supabase storage
-            console.log("editingImageId fileUploader", editingImageId)
             
             const displayName = user?.user_metadata.display_name;
             const randomUUID = crypto.randomUUID();

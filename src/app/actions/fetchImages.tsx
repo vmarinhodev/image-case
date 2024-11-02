@@ -53,7 +53,7 @@ export async function getImageUrls(photos: ImageInterface[], user: User): Promis
             console.error('Error generating url', error)
             return null;
         }
-
+        // console.log('photo', photo)
         return {
             image_url: data.signedUrl ?? '',
             imageName: photo.image_url,
