@@ -15,7 +15,6 @@ function extractFilePath(url: string) {
     if (filePath.includes('?')) {
         filePath = filePath.split('?')[0];
     };
-    console.log('filepath', filePath)
     return `${'users_folder'}/${filePath}`
 
 }
@@ -24,11 +23,12 @@ export default async function deletePhoto(formData: FormData) {
     const headersList = headers();
     const fullUrl = headersList.get('referer') || "";
     console.log('fullUrl', fullUrl)
+    const fullPath = new URL(fullUrl).pathname; // Extract just the pathname
+    console.log('Revalidating path:', fullPath);
+    
     const supabase = supabaseServer();
     const src = formData.get('photoPath')
     const objectId = formData.get('objectId')
-    // console.log('src', src)
-    console.log('objectId', objectId)
 
     if (typeof src !== 'string') {
         console.error('Photo data is missing or invalid');
@@ -36,14 +36,11 @@ export default async function deletePhoto(formData: FormData) {
     };
 
     const filePath = extractFilePath(src);
-    console.log('filePath', filePath)
 
     if (!filePath) {
         console.error('Failed to extract filePath');
         return;
     }
-
-    console.log('file deleted successfully from storage:', filePath);
 
 
     // Delete records from table
@@ -79,12 +76,9 @@ export default async function deletePhoto(formData: FormData) {
 
     // Ensure no further attempts to access the deleted file
     if (!storageError && !dbError) {
-        console.log('File and database records deleted successfully.');
         return;
     }
 
-    console.log('Image data deleted successfully from database');
-
      // Revalidate the path to update the cache
-     revalidatePath(`${fullUrl}`);
+     revalidatePath(fullPath);
 }

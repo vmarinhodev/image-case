@@ -28,26 +28,26 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ReactQueryClientProvider>
-      <FileUploaderProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        > 
-          <Navbar />
-          <Toaster
-            toastOptions={{
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ReactQueryClientProvider>
+          <FileUploaderProvider>
+            <Navbar />
+            <Toaster
+              toastOptions={{
                 classNames: {
                   error: 'bg-red-400',
                   success: 'bg-green-400',
                   warning: 'bg-yellow-400',
                 },
-            }}
-          />
-          {children}
-        </body>
-      </html>
-      </FileUploaderProvider>
-    </ReactQueryClientProvider>
+              }}
+            />
+            {children}
+          </FileUploaderProvider>
+        </ReactQueryClientProvider>
+      </body>
+    </html>
   );
 }

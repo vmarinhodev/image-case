@@ -2,7 +2,6 @@ import { supabaseServer } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
 import { ImageInterface, SignedImageUrlInterface } from "../types";
 
-
 // Fetch ALL Images
 export async function fetchAllImages(user: User): Promise<ImageInterface[] | null> {
     const supabase = supabaseServer();
@@ -14,7 +13,7 @@ export async function fetchAllImages(user: User): Promise<ImageInterface[] | nul
         .order('created_at', { ascending: false })
 
         if (error) {
-            console.error('Error fetching images', error);
+            console.error('Error fetching images', error.message);
             return []
         }
         return data as ImageInterface[];

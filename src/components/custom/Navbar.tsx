@@ -14,13 +14,13 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/app/auth/authActions";
 import { useEffect, useState } from "react";
-import { supabaseBrowser } from "@/utils/supabase/browser";
+import useSupabaseBrowser from "@/utils/supabase/browser";
 import { User } from "@supabase/supabase-js";
 import { useFileUploader } from "./FileUploaderContext";
 import FileUploader from "@/components/custom/FileUploader";
 
 export default function Navbar() {
-    const supabase = supabaseBrowser();
+    const supabase = useSupabaseBrowser();
     const [user, setUser] = useState<User | null>(null);
     const { openUploaderDialog } = useFileUploader();
 
@@ -71,6 +71,9 @@ export default function Navbar() {
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                             <Link href="/personal">Personal</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/various">Various</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <form action={signOut}>
