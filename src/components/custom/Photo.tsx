@@ -14,7 +14,7 @@ import {
     TrashIcon
 } from "@radix-ui/react-icons";
 import { useFileUploader } from "./FileUploaderContext";
-// import handlePrivacy from "@/app/actions/handlePrivacy";
+import handlePrivacy from "@/app/actions/handlePrivacy";
 import { photoProps } from "@/app/types";
 
 const capitalizeFirstLetter = (string: string) => {
@@ -39,7 +39,7 @@ export default function Photo({
     editingImageId,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
-    // const [privacyState, setPrivacyState] = useState(privacy);
+    const [privacyState, setPrivacyState] = useState(privacy);
     const isOwner = currentUserId === ownerId;
     const { openUploaderDialog } = useFileUploader();
 
@@ -112,7 +112,7 @@ export default function Photo({
                             <input type="hidden" name="imageId" value={imageId} />
                             <button
                                 type="submit"
-                                // onClick={() => handlePrivacy(imageId, privacyState, setPrivacyState)}
+                                onClick={() => handlePrivacy({ imageId, currentPrivacy: privacyState, setPrivacyState })}
                                 className="text-red-500 cursor-pointer hover:text-red-600">
                                 {privacy ? <LockClosedIcon className="size-6" /> : <LockOpen2Icon className="size-6" />}
                             </button>
