@@ -13,30 +13,23 @@ import {
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { signOut } from "@/app/auth/authActions";
-import { useEffect, useState } from "react";
-import useSupabaseBrowser from "@/utils/supabase/browser";
-import { User } from "@supabase/supabase-js";
 import { useFileUploader } from "./FileUploaderContext";
 import FileUploader from "@/components/custom/FileUploader";
 
-export default function Navbar() {
-    const supabase = useSupabaseBrowser();
-    const [user, setUser] = useState<User | null>(null);
-    const { openUploaderDialog } = useFileUploader();
+type NavbarProps = {
+    user: {
+        email: string;
+        id: string;
+    } | null;
+};
 
-    // Fetch user data on mount
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
-        };
-        fetchUser();
-    }, [supabase]); // Add supabase as a dependency to avoid stale closures
+export default function Navbar({ user }: NavbarProps) {
+    const { openUploaderDialog } = useFileUploader();
 
     return <div className="bg-primary dark:bg-slate-700 text-white py-2 px-5 flex justify-between">
         <Logo />
 
-        {user !== null ? (
+        {user ? (
             <>
 
             <FileUploader />

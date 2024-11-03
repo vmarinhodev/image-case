@@ -1,7 +1,7 @@
 import { getAuthenticatedUser } from "@/app/auth/authUser";
 import ImageGallery from "@/components/custom/ImageGalleryTest";
 
-export default async function Private() {
+export default async function Various() {
   const user = await getAuthenticatedUser();
 
   if (!user) {
