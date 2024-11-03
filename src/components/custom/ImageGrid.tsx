@@ -2,19 +2,31 @@
 import { ImageGridPropsInterface } from "@/app/types";
 import Photo from "./Photo";
 import NoDataLayout from "./NoDataLayout";
+import LoadingCard from "./LoadingCard";
 
 
 // Image Grid Display
 export default function ImageGrid({
     user,
     images,
+    // isLoading,
     showHearted = false,
     noDataMessage,
     showEdit = false,
 }: ImageGridPropsInterface) {
 
+    // if (isLoading) {
+    //     return (
+    //         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    //             {/* Render multiple loading cards while loading */}
+    //             {Array.from({ length: 6 }).map((_, index) => (
+    //                 <LoadingCard key={index} />
+    //             ))}
+    //         </div>
+    //     );
+    // }
     // Fallback in case there are no images returned from fetchImages
-    if (!images.length) 
+    if (!images || images.length === 0)
         return ( 
             <div>
                 {/* {noDataMessage || 'No images available'} */}

@@ -1,13 +1,12 @@
+import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/custom/Navbar";
-import { ReactQueryClientProvider } from "@/components/custom/ReactQueryClientProvider";
 import { Toaster } from "sonner";
 import { FileUploaderProvider } from "@/components/custom/FileUploaderContext";
 import { supabaseServer } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
-import GlobalLayout from "@/components/custom/GlobalLayout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,7 +20,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "MiYamage Gallery",
+  title: "VMDev Gallery",
   description: "Simple Image management library",
 };
 
@@ -41,7 +40,6 @@ function transformUser(user: User | null): NavbarUser | null {
   }
   return null; // If no user, return null
 }
-
 
 export default async function RootLayout({
   children,

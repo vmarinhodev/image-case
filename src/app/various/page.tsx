@@ -19,7 +19,7 @@ export default async function Various() {
           <div className="w-full">
             <ImageGallery 
               params={{
-                id: user.id
+                userId: user.id
               }}
             />
           </div>

@@ -9,19 +9,23 @@ export default async function Favourites() {
     if (!user) {
         // If user is not authenticated, redirect or return a NoSignedUser layout
         return <NoSignedUser noUserText="You must be logged in to see this page." />;
-    }
-
-    const { images: personalImages } = await fetchImagesWithFavourites(user, { fetchFavourites: true, allFavourited: true });
+      }
+    
+    const { images: personalImages } = await fetchImagesWithFavourites(user, { fetchFavourites: true, allFavourited: true});
 
     return (
-        <div className="pt-16">
-        <ImageGrid
-            user={user}
-            images={personalImages}
-            showHearted={true}
-            showEdit={false}
-            noDataMessage="You have NO favourite images yet."
-        />
-        </div>
+        <main className="min-h-screen relative p-10">
+            <div className="container mx-auto">
+                <div className="w-full">
+                    <ImageGrid
+                        user={user}
+                        images={personalImages}
+                        showHearted={true}
+                        showEdit={false}
+                        noDataMessage="You have NO favourite images yet."
+                    />
+                </div>
+            </div>
+        </main>
     )
 }

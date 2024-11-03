@@ -27,6 +27,7 @@ export interface SignedImageUrlInterface {
 
 export interface ImageGridPropsInterface {
     user: User;
+    isLoading?: boolean;
     images: SignedImageUrlInterface[];
     showHearted: boolean;
     showEdit: boolean;

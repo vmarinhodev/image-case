@@ -2,6 +2,7 @@ import { getAuthenticatedUser } from "./auth/authUser";
 import ImageGrid from "@/components/custom/ImageGrid";
 import { fetchImagesWithFavourites } from "./actions/fetchImagesWithFavourites";
 import AuthFormsTabs from "@/components/custom/AuthFormsTab";
+import Dashboard from "./dashboard/page";
 
 export default async function Home() {
   const user = await getAuthenticatedUser();
@@ -31,24 +32,7 @@ export default async function Home() {
     )
   }
 
-  const { images: allImages } = await fetchImagesWithFavourites(user, { fetchFavourites: true });
-
   return (
-    <main className="min-h-screen relative p-10">
-      <div className="container mx-auto">
-        <div className="mb-6">
-          <h1 className="text-4xl font-bold mb-4">Home</h1>
-        </div>
-        <div className="w-full">
-          <ImageGrid
-            user={user}
-            images={allImages}
-            showHearted={true}
-            showEdit={false}
-            noDataMessage="No images found try and upload a new Image "
-          />
-        </div>
-      </div>
-    </main>
+    <Dashboard/>
   )
 }

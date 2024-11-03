@@ -16,7 +16,11 @@ export default async function Private() {
 
   return (
     
-      <ImageGrid user={user} images={privateImages} showHearted={true} showEdit={true}/>
+      <ImageGrid
+        user={user}
+        images={privateImages}
+        showHearted={true}
+        showEdit={true}/>
     
   );
 }
