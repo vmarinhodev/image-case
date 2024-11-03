@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { FileUploaderProvider } from "@/components/custom/FileUploaderContext";
 import { supabaseServer } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
+import GlobalLayout from "@/components/custom/GlobalLayout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,8 +26,8 @@ export const metadata: Metadata = {
 };
 
 // Define the user type expected by the Navbar
-interface NavbarUser {
-  email: string;
+export interface NavbarUser {
+  email?: string;
   id: string;
 }
 
@@ -34,12 +35,13 @@ interface NavbarUser {
 function transformUser(user: User | null): NavbarUser | null {
   if (user) {
     return {
-      email: user.email || '', // Ensure email is a string, or provide a default
+      email: user.email || 'No email', // Ensure email is a string, or provide a default
       id: user.id, // Assume id is always present if user is not null
     };
   }
   return null; // If no user, return null
 }
+
 
 export default async function RootLayout({
   children,
@@ -58,7 +60,8 @@ export default async function RootLayout({
       >
         <ReactQueryClientProvider>
           <FileUploaderProvider>
-            <Navbar user={transformedUser}/>
+            {children}{/* Render the Navbar as part of the page layout */}
+            {transformedUser && <Navbar user={transformedUser} />}
             <Toaster
               toastOptions={{
                 classNames: {
@@ -68,7 +71,6 @@ export default async function RootLayout({
                 },
               }}
             />
-            {children}
           </FileUploaderProvider>
         </ReactQueryClientProvider>
       </body>

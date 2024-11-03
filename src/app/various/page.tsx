@@ -1,11 +1,12 @@
 import { getAuthenticatedUser } from "@/app/auth/authUser";
 import ImageGallery from "@/components/custom/ImageGalleryTest";
+import NoSignedUser from "../nouser/page";
 
 export default async function Various() {
   const user = await getAuthenticatedUser();
 
   if (!user) {
-    return <div>You need to be logged in to see this page.</div>
+    return <NoSignedUser noUserText="No user. You must be logged in to see this page"/>
   }
 
 

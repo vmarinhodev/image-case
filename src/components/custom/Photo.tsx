@@ -40,7 +40,6 @@ export default function Photo({
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
     const [privacyState, setPrivacyState] = useState(privacy);
-    console.log('privacy', privacyState)
     const isOwner = currentUserId === ownerId;
     const { openUploaderDialog } = useFileUploader();
 
