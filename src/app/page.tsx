@@ -1,5 +1,6 @@
 import { getAuthenticatedUser } from "./auth/authUser";
 import AuthFormsTabs from "@/components/custom/AuthFormsTab";
+import { Logo } from "@/components/custom/Logo";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -12,7 +13,13 @@ export default async function Home() {
     return (
       <div className="w-full h-screen flex md:grid md:grid-cols-5 items-center justify-center">
         {/* Left Column */}
-        <div className="flex items-center justify-center py-12 col-span-2 px-8">
+        <div className="flex flex-cols py-12 col-span-2 px-8 relative">
+        <div className="fixed top-0 left-0 right-0 py-2 px-5 flex items-center z-50">
+          <Logo /> 
+        </div>
+        {/* Spacer to prevent overlap */}
+        <div className="mt-20"></div>
+
           <div className="mx-auto grid max-w-[540px] gap-6">
             <div className="grid gap-2 text-left">
               <AuthFormsTabs />
