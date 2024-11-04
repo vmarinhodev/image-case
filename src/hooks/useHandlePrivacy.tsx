@@ -1,6 +1,7 @@
 import { HandlePrivacyInterface } from "@/app/types";
 import useSupabaseBrowser from "@/utils/supabase/browser";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function useHandlePrivacy() {
     const supabase = useSupabaseBrowser();
@@ -23,9 +24,10 @@ export function useHandlePrivacy() {
                 return;
             }
             setPrivacyState(newPrivacy);
-            console.log('Privacy successfully updated to', newPrivacy);
+            toast.success(`Privacy successfully updated to ${newPrivacy ? "Private" : "Public" } Image`)
         } catch (error) {
             console.error('Unexpected error while updating privacy:', error);
+            toast.error('Unexpected error occurred while updating privacy')
             setError('Unexpected error occurred while updating privacy.');
         } finally {
             setLoading(false);
@@ -33,5 +35,4 @@ export function useHandlePrivacy() {
     };
 
     return { handlePrivacy, loading, error };
-    
 }
