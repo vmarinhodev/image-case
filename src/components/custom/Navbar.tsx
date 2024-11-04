@@ -59,9 +59,6 @@ export default function Navbar({ user }: NavbarProps) {
                     <DropdownMenuItem asChild>
                         <Link href="/personal">Personal</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href="/various">Various</Link>
-                    </DropdownMenuItem>
                     <DropdownMenuItem>
                         <form action={signOut}>
                             <button>Logout</button>

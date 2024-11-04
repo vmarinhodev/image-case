@@ -22,9 +22,7 @@ function extractFilePath(url: string) {
 export default async function deletePhoto(formData: FormData) {
     const headersList = headers();
     const fullUrl = headersList.get('referer') || "";
-    console.log('fullUrl', fullUrl)
     const fullPath = new URL(fullUrl).pathname; // Extract just the pathname
-    console.log('Revalidating path:', fullPath);
     
     const supabase = supabaseServer();
     const src = formData.get('photoPath')
@@ -41,7 +39,6 @@ export default async function deletePhoto(formData: FormData) {
         console.error('Failed to extract filePath');
         return;
     }
-
 
     // Delete records from table
     const { error: dbError } = await supabase
