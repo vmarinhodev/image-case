@@ -26,17 +26,17 @@ export default function ImageGrid({
     //     );
     // }
     // Fallback in case there are no images returned from fetchImages
-    if (!images || images.length === 0)
-        return ( 
-            <div>
-                {/* {noDataMessage || 'No images available'} */}
-                <NoDataLayout
-                    message="Why not add a new private Image?"
-                    buttonText="+ add image"
-                    buttonLink={'/personal'}
-                />
-            </div>
-        )
+    // if (!images || images.length === 0)
+    //     return ( 
+    //         <div>
+    //             {/* {noDataMessage || 'No images available'} */}
+    //             <NoDataLayout
+    //                 message="Why not add a new private Image?"
+    //                 buttonText="+ add image"
+    //                 buttonLink={'/personal'}
+    //             />
+    //         </div>
+    //     )
 
     // Images that have been favourited
     const displayedImages = images.filter((photo) => {
@@ -44,7 +44,7 @@ export default function ImageGrid({
         const isShowAllCondition = showHearted && isFavouritedCondition;
         const isPrivateCondition = 
             photo.privacy === false ||
-            (photo.privacy === true && photo.owner === user.id)
+            (photo.privacy === true && photo.owner === user?.id)
         return isFavouritedCondition || isShowAllCondition || isPrivateCondition;
     });
 
@@ -65,7 +65,7 @@ export default function ImageGrid({
                         description={photo.description}
                         isFavourited={photo.isFavourited}
                         ownerId={photo.owner}
-                        currentUserId={user.id}
+                        currentUserId={user?.id}
                         ownerName={photo.ownerName}
                         showEdit={showEdit}
                         editingImageId={photo.imageId}

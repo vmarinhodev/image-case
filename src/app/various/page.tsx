@@ -11,7 +11,7 @@ export default async function Various() {
 
 
     return (
-      <main className="min-h-screen relative p-10">
+      <main className="min-h-screen relative p-10 pt-16">
         <div className="container mx-auto">
           <div className="mb-6">
             <h1 className="text-4xl font-bold mb-4">Various</h1>
@@ -19,7 +19,8 @@ export default async function Various() {
           <div className="w-full">
             <ImageGallery 
               params={{
-                userId: user.id
+                userId: user.id,
+                imageName: 'image_name', 
               }}
             />
           </div>

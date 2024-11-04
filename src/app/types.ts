@@ -26,7 +26,7 @@ export interface SignedImageUrlInterface {
 }
 
 export interface ImageGridPropsInterface {
-    user: User;
+    user: User | null;
     isLoading?: boolean;
     images: SignedImageUrlInterface[];
     showHearted: boolean;
@@ -45,7 +45,7 @@ export interface photoProps {
     description: string;
     isFavourited?: boolean,
     ownerId: string,
-    currentUserId: string,
+    currentUserId: string | undefined,
     ownerName: string,
     showEdit: boolean,
     editingImageId: string,

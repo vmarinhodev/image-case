@@ -34,7 +34,7 @@ export default function Navbar({ user }: NavbarProps) {
                 }}
 
             >
-                + Add a new file
+                + Add Image
             </Button>
             <DropdownMenu>
                 <DropdownMenuTrigger className='focus:outline-none'>
