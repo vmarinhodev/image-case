@@ -12,33 +12,39 @@ export async function fetchImagesWithFavourites(
         onlyPublic = false
     }: FetchImagesInterface,
 ) {
-    //Fetch all images for the user
-    const allImages = await fetchAllImages(user);
-    if (!allImages?.length) {
-        return { images: [], noData: true};
+    try {
+//Fetch all images for the user
+const allImages = await fetchAllImages(user);
+
+if (!allImages?.length) {
+    return { images: [], noData: true};
+}
+
+// Fetch favourites only if needed
+let favouriteImageNames: string[] = [];
+if (fetchFavourites) {
+    favouriteImageNames = await fetchUserFavouriteImages(user);
+}
+
+const photoObjects = await getImageUrls(allImages, user);
+
+const imagesWithFavourites: SignedImageUrlInterface[] = photoObjects
+    .filter((photo): photo is SignedImageUrlInterface => photo !== null)
+    .map((photo) => ({
+        ...photo,
+        isFavourited: favouriteImageNames.includes(photo.objectId)
+    }))
+    .filter((photo) => {
+        if (allPersonal) return photo.owner === user.id;
+        if (allFavourited) return photo.isFavourited === true;
+        if (onlyPrivate) return photo.privacy === true && photo.owner === user.id;
+        if (onlyPublic) return photo.privacy === true;
+        return true;
+    });
+
+    return { images: imagesWithFavourites, noData: false , isLoading: true}
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        throw new Error("Failed to fetch images")
     }
-
-    // Fetch favourites only if needed
-    let favouriteImageNames: string[] = [];
-    if (fetchFavourites) {
-        favouriteImageNames = await fetchUserFavouriteImages(user);
-    }
-
-    const photoObjects = await getImageUrls(allImages, user);
-
-    const imagesWithFavourites: SignedImageUrlInterface[] = photoObjects
-        .filter((photo): photo is SignedImageUrlInterface => photo !== null)
-        .map((photo) => ({
-            ...photo,
-            isFavourited: favouriteImageNames.includes(photo.objectId)
-        }))
-        .filter((photo) => {
-            if (allPersonal) return photo.owner === user.id;
-            if (allFavourited) return photo.isFavourited === true;
-            if (onlyPrivate) return photo.privacy === true && photo.owner === user.id;
-            if (onlyPublic) return photo.privacy === true;
-            return true;
-        });
-
-        return { images: imagesWithFavourites, noData: false }
 }

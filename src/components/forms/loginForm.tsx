@@ -23,8 +23,6 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema)
     });
 
-    console.log('errors loginForm', errors)
-
     // Form submit handler
     const onSubmit: SubmitHandler<LoginValidationSchemaType> = async (data) => {
         const formData = new FormData();
@@ -33,15 +31,12 @@ export default function LoginForm() {
 
         // Call the login action with FormData
         const response = await emailLogin(formData);
-        console.log('response', response)
+ 
         if (!response.success) {
             setFeedback(response.message);
-            console.log('response.message', response.message);
             toast.error(`${response.message}`)
         } else {
-            setFeedback('Login successful! Redirecting...');
             // Perform redirect or further actions here
-            console.log('response.message is success')
             toast.success(`${response.message}`)
         }
     }

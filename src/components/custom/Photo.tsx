@@ -14,8 +14,8 @@ import {
     TrashIcon
 } from "@radix-ui/react-icons";
 import { useFileUploader } from "./FileUploaderContext";
-import handlePrivacy from "@/app/actions/handlePrivacy";
 import { photoProps } from "@/app/types";
+import { useHandlePrivacy } from "@/hooks/useHandlePrivacy";
 
 const capitalizeFirstLetter = (string: string) => {
     if (!string) return "";
@@ -27,7 +27,7 @@ export default function Photo({
     imageName,
     imageId,
     objectId,
-    privacy,
+    currentPrivacy,
     alt,
     title,
     description,
@@ -39,9 +39,18 @@ export default function Photo({
     editingImageId,
 }: Readonly<photoProps>) {
     const [showModal, setShowModal] = useState(false);
-    const [privacyState, setPrivacyState] = useState(privacy);
+    const [privacyState, setPrivacyState] = useState(currentPrivacy);
     const isOwner = currentUserId === ownerId;
     const { openUploaderDialog } = useFileUploader();
+     // Destructure the function and states returned by the hook
+     const { handlePrivacy, loading, error } = useHandlePrivacy();
+
+     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault(); // Prevents default form submission
+
+        // Call the function to handle the privacy change and check if it updates correctly
+        await handlePrivacy({ imageId, currentPrivacy: privacyState, setPrivacyState });
+    };
 
     function toggleModal() {
         setShowModal(!showModal)
@@ -108,13 +117,13 @@ export default function Photo({
                         </button>
                         {/* Privacy Button */}
                         <form className="ml-1">
-                            <input type="hidden" name="isPrivate" value={privacy ? 'true' : 'false'} />
+                            <input type="hidden" name="isPrivate" value={privacyState ? 'true' : 'false'} />
                             <input type="hidden" name="imageId" value={imageId} />
                             <button
-                                type="submit"
-                                onClick={() => handlePrivacy({ imageId, currentPrivacy: privacyState, setPrivacyState })}
+                                type="button"
+                                onClick={handleClick}
                                 className="text-red-500 cursor-pointer hover:text-red-600">
-                                {privacy ? <LockClosedIcon className="size-6" /> : <LockOpen2Icon className="size-6" />}
+                                {privacyState ? <LockClosedIcon className="size-6" /> : <LockOpen2Icon className="size-6" />}
                             </button>
                         </form>
                     </>

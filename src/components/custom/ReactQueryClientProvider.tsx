@@ -20,7 +20,6 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
 
     return (
         <QueryClientProvider client={queryClient}>
-            <LoadingIndicatorWrapper />
             {children}
         </QueryClientProvider>
     )

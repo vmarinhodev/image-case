@@ -1,5 +1,4 @@
 import { User } from '@supabase/supabase-js';
-import { Dispatch, SetStateAction } from "react";
 
 export interface ImageInterface {
     id: string;
@@ -39,7 +38,7 @@ export interface photoProps {
     imageName: string,
     imageId: string,
     objectId: string,
-    privacy: boolean,
+    currentPrivacy: boolean,
     alt: string,
     title: string,
     description: string;

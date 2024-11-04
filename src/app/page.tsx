@@ -6,16 +6,11 @@ export default async function Home() {
   const user = await getAuthenticatedUser();
 
   if (user) {
-    // setTimeout(() => {
-    //   redirect('/dashboard')
-    // }, 2000);
-
-    console.log('user')
     redirect('/dashboard')
   }
 
     return (
-      <div className="w-full h-screen flex md:grid md:grid-cols-5">
+      <div className="w-full h-screen flex md:grid md:grid-cols-5 items-center justify-center">
         {/* Left Column */}
         <div className="flex items-center justify-center py-12 col-span-2 px-8">
           <div className="mx-auto grid max-w-[540px] gap-6">

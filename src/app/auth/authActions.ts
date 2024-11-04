@@ -10,10 +10,10 @@ interface LoginResponse {
     message: string;
 }
 
+// Email Login Authentication
 export async function emailLogin(formData: FormData): Promise<LoginResponse> {
     const supabase = supabaseServer();
 
-    console.log('formData', formData)
     const data = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
@@ -23,36 +23,28 @@ export async function emailLogin(formData: FormData): Promise<LoginResponse> {
     try {
         loginSchema.parse(data);
     } catch (validationError) {
-      console.log('issues', validationError)
         const issues = (validationError as any).issues; // Access Zod issues
-        console.log('issues', issues)
         return {
             success: false,
             message: issues.map((issue: any) => issue.message).join(", "), // Join messages
         };
-        
     }
 
     const { error } = await supabase.auth.signInWithPassword(data);
-    console.log('error from error authActions', error?.message)
     if (error) {
-      
         return {
             success: false,
             message: error.message,
         };
     }
-
     revalidatePath('/', 'layout');
     return { success: true, message: 'Login successful' };
 }
 
-
+// SignUp Authentication
 export async function signup(formData: FormData) {
   const supabase = supabaseServer()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -76,7 +68,7 @@ export async function signup(formData: FormData) {
 }
 
 
-// On Logout
+// On Logout Authentication
 export async function signOut() {
   const supabase = supabaseServer();
   await supabase.auth.signOut();

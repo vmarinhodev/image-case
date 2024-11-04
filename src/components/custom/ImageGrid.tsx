@@ -59,7 +59,7 @@ export default function ImageGrid({
                         imageName={photo.imageName}
                         imageId={photo.imageId}
                         objectId={photo.objectId}
-                        privacy={photo.privacy}
+                        currentPrivacy={photo.privacy}
                         alt={photo.title}
                         title={photo.title}
                         description={photo.description}
