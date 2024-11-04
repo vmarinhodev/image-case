@@ -15,6 +15,7 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
+import { Textarea } from "../ui/textarea";
 
 export default function FileUploader() {
     const supabase = useSupabaseBrowser();
@@ -72,8 +73,6 @@ export default function FileUploader() {
             }
 
             // File to supabase storage
-            console.log("editingImageId fileUploader", editingImageId)
-            
             const displayName = user?.user_metadata.display_name;
             const randomUUID = crypto.randomUUID();
             const fileExt = file?.name.split('.').pop();
@@ -145,6 +144,22 @@ export default function FileUploader() {
                     </DialogHeader>
 
                     <form onSubmit={handleFileUpload} className="space-y-4">
+                    {!editingImageId && 
+                        <>
+                        {/* File Upload Input */}
+                        <div>
+                            <Label htmlFor="file-upload" className="block text-sm font-medium">Image</Label>
+                            <Input
+                                type="file"
+                                name="file"
+                                id="file-upload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="mt-1 block w-full text-sm"
+                            />
+                        </div>
+                        </>
+                        }
                         {/* Title Input */}
                         <div>
                             <Label htmlFor="title" className="block text-sm font-medium">Title</Label>
@@ -163,7 +178,7 @@ export default function FileUploader() {
                         {/* Description Input */}
                         <div>
                             <Label htmlFor="description" className="block text-sm font-medium">Description</Label>
-                            <Input
+                            <Textarea
                                 name="description"
                                 id="description"
                                 placeholder="Description"
@@ -186,23 +201,6 @@ export default function FileUploader() {
                             />
                             <label htmlFor="isPublic" className="ml-2 block text-sm font-medium">Make private</label>
                         </div>
-
-                        {!editingImageId && 
-                        <>
-                        {/* File Upload Input */}
-                        <div>
-                            <Label htmlFor="file-upload" className="block text-sm font-medium">Image</Label>
-                            <Input
-                                type="file"
-                                name="file"
-                                id="file-upload"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                className="mt-1 block w-full text-sm"
-                            />
-                        </div>
-                        </>
-                        }
 
                         <DialogFooter>
                             <button

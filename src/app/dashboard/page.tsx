@@ -8,9 +8,7 @@ import GlobalLayout from "@/components/custom/GlobalLayout";
 export default async function Dashboard() {
     const user = await getAuthenticatedUser();
 
-    const { images: allImages, noData, isLoading } = await fetchImagesWithFavourites(user as User, { fetchFavourites: true });
-
-    console.log('dashboar fetching', noData, isLoading)
+    const { images: allImages } = await fetchImagesWithFavourites(user as User, { fetchFavourites: true });
 
     return (
         <GlobalLayout user={user} images={allImages}>

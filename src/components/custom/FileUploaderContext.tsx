@@ -38,7 +38,6 @@ export function FileUploaderProvider({ children }: { children: React.ReactNode }
     };
     
     const openUploaderDialog = (formData?: FormDataInterface & { editingImageId?: string }) => {
-        console.log('editingImageId Context', formData?.editingImageId)
         setIsUploaderOpen(true);
         if (formData) {
             setFormData(formData)
