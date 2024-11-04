@@ -10,7 +10,7 @@ import LoadingCard from "./LoadingCard";
 export default function ImageGallery({ params: { userId, imageName }}: { params: { userId: string, imageName: string } }) {
     const supabase = useSupabaseBrowser();
     const { data: favourite, isLoading, isError } = useQuery(getFavouriteById(supabase, userId))
-    console.log("data page various", favourite)
+    console.log("data page various", favourite, imageName)
     if (isLoading) {
         return (
             <div className="container mx-auto px-4">
@@ -35,7 +35,7 @@ export default function ImageGallery({ params: { userId, imageName }}: { params:
         <>
       {favourite.map((fav, index) => (
        <div key={index}>
-        <h1>Image Name: { fav.imageName }</h1>
+        <h1>Image Name: { imageName }</h1>
         <h1>User Id: { fav.object_id }</h1>
         </div>
       ))}
