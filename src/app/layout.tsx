@@ -49,7 +49,10 @@ export default async function RootLayout({
   const supabase = supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
   // Transform the user to the expected type
-  const transformedUser = transformUser(user);
+ 
+    const transformedUser = transformUser(user);
+ 
+  
 
   return (
     <html lang="en">
