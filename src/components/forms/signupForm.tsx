@@ -48,7 +48,6 @@ export default function SignupForm() {
                         <div>
                             <Label htmlFor="email" className="block text-sm font-medium">Email</Label>
                             <Input
-                                type="email"
                                 placeholder='email'
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                 {...register('email')}

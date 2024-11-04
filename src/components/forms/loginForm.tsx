@@ -1,6 +1,7 @@
 'use client'
+
 import { LoginValidationSchemaType, loginSchema } from "@/schemas/formsSchema";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,21 +15,35 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { emailLogin } from "@/app/auth/authActions";
+import { toast } from "sonner";
 
 export default function LoginForm() {
-
+    const [feedback, setFeedback] = useState<string | null>(null);
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginValidationSchemaType>({
         resolver: zodResolver(loginSchema)
     });
 
+    console.log('errors loginForm', errors)
+
     // Form submit handler
-    const onSubmit: SubmitHandler<LoginValidationSchemaType> = (data) => {
+    const onSubmit: SubmitHandler<LoginValidationSchemaType> = async (data) => {
         const formData = new FormData();
         formData.append("email", data.email);
         formData.append("password", data.password);
 
         // Call the login action with FormData
-        emailLogin(formData);
+        const response = await emailLogin(formData);
+        console.log('response', response)
+        if (!response.success) {
+            setFeedback(response.message);
+            console.log('response.message', response.message);
+            toast.error(`${response.message}`)
+        } else {
+            setFeedback('Login successful! Redirecting...');
+            // Perform redirect or further actions here
+            console.log('response.message is success')
+            toast.success(`${response.message}`)
+        }
     }
 
     return (
@@ -46,7 +61,6 @@ export default function LoginForm() {
                         <div>
                             <Label htmlFor="email" className="block text-sm font-medium">Email</Label>
                             <Input
-                                type="email"
                                 placeholder='email'
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                 {...register('email')}
@@ -75,6 +89,7 @@ export default function LoginForm() {
                             >
                                 {isSubmitting ? 'Logging in...' : 'Login'}
                             </Button>
+                            {feedback && <p className="text-red-600 text-sm mt-2">{feedback}</p>}
                         </div>
                     </form>
                 </CardContent>
