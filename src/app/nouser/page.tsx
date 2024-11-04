@@ -1,10 +1,11 @@
 import Link from 'next/link';
 
-// type NoSignedUserProps = {
-//     noUserText: string;
-// }
+type NoSignedUserProps = {
+     params: { noUserText: string };
+}
 
-export default function NoSignedUser({ noUserText }: { noUserText: string }) {
+export default function NoSignedUser({ params }: NoSignedUserProps) {
+  const { noUserText } = params;
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white text-center">
       <h1 className="text-4xl font-bold">No User Signed In</h1>
