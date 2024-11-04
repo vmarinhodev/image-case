@@ -35,15 +35,17 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+  if (!user && !request.nextUrl.pathname.startsWith('/login')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
+  // If user exists, attach user data as headers (optional, for further processing)
+  // Set user info as a header (for reading in SSR)
+  if (user) {
+    supabaseResponse.headers.set('x-user-email', user.email ?? '');
+    supabaseResponse.headers.set('x-user-id', user.id);
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

@@ -1,12 +1,11 @@
-import { supabaseBrowser } from "@/utils/supabase/browser";
+import useSupabaseBrowser from "@/utils/supabase/browser";
 import { HandlePrivacyInterface } from "../types";
+import { supabaseBrowser } from "@/utils/supabase/supaBrowser";
 
 export default async function handlePrivacy({imageId, currentPrivacy, setPrivacyState }: HandlePrivacyInterface) {
     const supabase = supabaseBrowser()
-
     try {
         const newPrivacy = !currentPrivacy;
-    
     
     const { error: updateError } = await supabase
         .from('images')

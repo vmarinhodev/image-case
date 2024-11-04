@@ -1,6 +1,6 @@
 'use client'
 
-import { supabaseBrowser } from "@/utils/supabase/browser";
+import useSupabaseBrowser from "@/utils/supabase/browser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useFileUploader } from "./FileUploaderContext";
@@ -17,7 +17,7 @@ import { Input } from "../ui/input";
 import { toast } from "sonner";
 
 export default function FileUploader() {
-    const supabase = supabaseBrowser();
+    const supabase = useSupabaseBrowser();
     const [uploading, setUploading] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const router = useRouter();

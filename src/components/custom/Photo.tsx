@@ -83,7 +83,7 @@ export default function Photo({
                             <input type="hidden" name="objectId" value={objectId} />
                             <button
                                 type="submit"
-                                className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600"
+                                className="bg-transparent border-none text-red-500 cursor-pointer hover:text-red-600 align-bottom"
                             >
                                 <TrashIcon className="size-6" />
                             </button>

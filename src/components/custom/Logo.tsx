@@ -25,7 +25,7 @@ interface LogoProps {
 }
 
 export function Logo({
-    text = "MiYamage",
+    text = "VMDev Gallery",
     dark = false,
 }: Readonly<LogoProps>) {
     return (

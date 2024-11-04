@@ -15,9 +15,6 @@ export default async function Dashboard() {
     return (
         <main className="min-h-screen relative p-10">
             <div className="container mx-auto">
-                <div className="mb-6">
-                    <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
-                </div>
                 <div className="w-full">
                     <ImageGrid
                         user={user}
