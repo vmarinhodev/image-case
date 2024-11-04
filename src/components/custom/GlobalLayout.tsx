@@ -76,12 +76,10 @@ const GlobalLayout: React.FC<GlobalLayoutProps> = ({ user, images, children }) =
 
      // Render the standard layout with ImageGrid if data exists
      return (
-        <main className="min-h-screen p-10">
-            <div className="container mx-auto">
+        <>
                 {children}
                 {/* <ImageGrid user={user} images={images} showHearted={true} showEdit={true} /> */}
-            </div>
-        </main>
+            </>
     );
 };
 
