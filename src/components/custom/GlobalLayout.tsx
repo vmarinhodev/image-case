@@ -48,9 +48,7 @@ const GlobalLayout: React.FC<GlobalLayoutProps> = ({ user, images, children }) =
     if (!user) {
         // If user is not authenticated, return a No User Layout
         return (
-            <NoSignedUser
-                noUserText="You must be logged in to see this page content"
-            />
+            <NoSignedUser params={{ noUserText: "You must be logged in to see this page"}}/>
         );
     }
 

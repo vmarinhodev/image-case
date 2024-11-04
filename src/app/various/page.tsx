@@ -6,9 +6,8 @@ export default async function Various() {
   const user = await getAuthenticatedUser();
 
   if (!user) {
-    return <NoSignedUser noUserText="No user. You must be logged in to see this page"/>
+    return <NoSignedUser params={{ noUserText: "You must be logged in to see this page"}}/>
   }
-
 
     return (
       <main className="min-h-screen relative p-10 pt-16">
