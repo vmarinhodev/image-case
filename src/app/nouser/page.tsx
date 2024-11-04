@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
-type NoSignedUserProps = {
+interface NoSignedUserProps {
     noUserText: string;
 }
 
-export default function NoSignedUser({ noUserText }: NoSignedUserProps) {
+const NoSignedUser: React.FC<NoSignedUserProps> = ({ noUserText }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white text-center">
       <h1 className="text-4xl font-bold">No User Signed In</h1>
@@ -17,3 +17,5 @@ export default function NoSignedUser({ noUserText }: NoSignedUserProps) {
     </div>
   );
 }
+
+export default NoSignedUser;
