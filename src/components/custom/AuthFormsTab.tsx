@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger  } from "../ui/tabs";
 export default function AuthFormsTabs() {
 
   return (
-    <Tabs defaultValue="login" className="w-[350px]">
+    <Tabs defaultValue="login" className="min-w-[300px]">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="login">Log In</TabsTrigger>
         <TabsTrigger value="signup">Sign Up</TabsTrigger>
