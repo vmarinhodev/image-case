@@ -7,6 +7,7 @@ import ImageGrid from './ImageGrid';
 import { usePathname, useRouter } from 'next/navigation';
 import { useFileUploader } from './FileUploaderContext';
 import { HeartFilledIcon } from '@radix-ui/react-icons';
+import FileUploader from './FileUploader';
 
 interface GlobalLayoutProps {
     user: NavbarUser | null;
@@ -48,7 +49,7 @@ const GlobalLayout: React.FC<GlobalLayoutProps> = ({ user, images, children }) =
     if (!user) {
         // If user is not authenticated, return a No User Layout
         return (
-            <NoSignedUser params={{ noUserText: "You must be logged in to see this page"}}/>
+            <NoSignedUser params={{ noUserText: "You must be logged in to see this page" }} />
         );
     }
 
@@ -63,7 +64,7 @@ const GlobalLayout: React.FC<GlobalLayoutProps> = ({ user, images, children }) =
     if (!images || images.length === 0) {
         // If there is no data, return a No Data Layout
         return (
-            <NoDataLayout 
+            <NoDataLayout
                 messageTitle={displayPathname}
                 messageBody={messageBody}
                 buttonText={buttonText}
@@ -72,12 +73,14 @@ const GlobalLayout: React.FC<GlobalLayoutProps> = ({ user, images, children }) =
         );
     }
 
-     // Render the standard layout with ImageGrid if data exists
-     return (
+    // Render the standard layout with ImageGrid if data exists
+    return (
         <>
-                {children}
-                {/* <ImageGrid user={user} images={images} showHearted={true} showEdit={true} /> */}
-            </>
+        {console.log('rendering from here')}
+            { children }
+            <FileUploader />
+            {/* <ImageGrid user={user} images={images} showHearted={true} showEdit={true} /> */ }
+        </>
     );
 };
 

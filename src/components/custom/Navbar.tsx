@@ -24,9 +24,8 @@ type NavbarProps = {
 export default function Navbar({ user }: NavbarProps) {
     const { openUploaderDialog } = useFileUploader();
     return (
-        <div className="py-2 px-5 flex justify-between bg-white fixed top-0 left-0 right-0 z-50">
+        <div className="py-2 px-6 flex justify-between bg-white fixed top-0 left-0 right-0 z-50">
             <Logo />
-            <FileUploader />
             <Button
                 className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
                 onClick={() => {
@@ -36,6 +35,7 @@ export default function Navbar({ user }: NavbarProps) {
             >
                 + Add Image
             </Button>
+            {/* <FileUploader /> */}
             <DropdownMenu>
                 <DropdownMenuTrigger className='focus:outline-none'>
                     <Avatar>

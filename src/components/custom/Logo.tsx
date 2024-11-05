@@ -33,7 +33,7 @@ export function Logo({
             <MountainIcon className={"h-6 w-6 text-blue-500"} />
             <span
                 className={`text-lg font-semibold ${dark ? "text-white" : "text-slate-900"
-                    }`}
+                    } hidden md:inline`}
             >
                 {text}
             </span>
