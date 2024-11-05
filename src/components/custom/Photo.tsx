@@ -107,7 +107,7 @@ export default function Photo({
                                         title,
                                         description,
                                         imageName,
-                                        isPublic: false,
+                                        isPublic: privacyState,
                                         editingImageId,
                                     },
                                 )
