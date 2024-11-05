@@ -76,7 +76,6 @@ const GlobalLayout: React.FC<GlobalLayoutProps> = ({ user, images, children }) =
     // Render the standard layout with ImageGrid if data exists
     return (
         <>
-        {console.log('rendering from here')}
             { children }
             <FileUploader />
             {/* <ImageGrid user={user} images={images} showHearted={true} showEdit={true} /> */ }

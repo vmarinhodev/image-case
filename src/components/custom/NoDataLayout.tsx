@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import FileUploader from './FileUploader';
 
 interface NoDataLayoutProps {
     messageTitle: string; // Message to display when there's no data
@@ -19,6 +20,7 @@ export default function NoDataLayout({ messageTitle, messageBody, buttonText, on
         >
             {buttonText}
         </Button>
+        <FileUploader />
     </div>
     );
 }

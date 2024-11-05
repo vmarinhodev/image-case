@@ -100,7 +100,7 @@ export default function Photo({
                         {/*Edit */}
                         <button
                             type="submit"
-                            onClick={() =>
+                            onClick={() => 
                                 openUploaderDialog(
                                     {
                                         imageId,
