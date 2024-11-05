@@ -18,8 +18,6 @@ export default function AuthFormsTabs() {
     }
   }, [isSignedUp])
 
-  console.log('isSignedUp', isSignedUp)
-
   // Handler to set `isSignedUp` state when signup is successful
   const handleSignupSuccess = () => {
     setIsSignedUp(true);
@@ -28,15 +26,15 @@ export default function AuthFormsTabs() {
   return (
     <>
       {!isSignedUp ? (
-        <Tabs defaultValue="login" className="min-w-[300px]">
+        <Tabs defaultValue="login" className="w-full min-w-[300px]">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Log In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger value="login" className="flex-1 text-center">Log In</TabsTrigger>
+            <TabsTrigger value="signup" className="flex-1 text-center">Sign Up</TabsTrigger>
           </TabsList>
-          <TabsContent value="login">
+          <TabsContent value="login" className="w-full">
             <LoginForm />
           </TabsContent>
-          <TabsContent value="signup">
+          <TabsContent value="signup" className="w-full">
             <SignupForm onSignupSuccess={handleSignupSuccess} />
           </TabsContent>
         </Tabs>
