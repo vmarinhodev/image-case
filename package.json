@@ -8,6 +8,15 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "browserslist": {
+    "browserslist": [
+        "> 0.5%",
+        "last 2 versions",
+        "ios >= 10",
+        "Firefox ESR",
+        "not dead"
+      ]
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.1",

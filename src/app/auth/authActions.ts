@@ -10,6 +10,11 @@ interface LoginResponse {
     message: string;
 }
 
+interface SignUpResponse {
+  success: boolean;
+  message: string;
+}
+
 // Email Login Authentication
 export async function emailLogin(formData: FormData): Promise<LoginResponse> {
     const supabase = supabaseServer();
@@ -42,8 +47,8 @@ export async function emailLogin(formData: FormData): Promise<LoginResponse> {
 }
 
 // SignUp Authentication
-export async function signup(formData: FormData) {
-  const supabase = supabaseServer()
+export async function handleSignup(formData: FormData): Promise<SignUpResponse> {
+  const supabase = supabaseServer();
 
   const data = {
     email: formData.get('email') as string,
@@ -58,13 +63,17 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data)
 
   if (error) {
-
-    console.error('error', error)
-    redirect('/error')
+    console.error('error', error);
+    return {
+      success: false,
+      message: 'Signup failed. Please try again'
+    }
   }
 
-  revalidatePath('/')
-  redirect('/')
+  return {
+    success: true,
+    message: 'Signup successful! Check your email to complete registration'
+  }
 }
 
 
