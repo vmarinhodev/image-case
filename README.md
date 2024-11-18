@@ -1,6 +1,6 @@
 # Project Overview
 
-This project is a web application that allows users to upload images to a supadatabase## Project Overview
+This project is a web application that allows users to upload images to a supadatabase
 
 This project is a web application that allows users to upload images to a Supabase database. The application is built using Next.js and utilizes various libraries such as React Hook Form, and Zod
 
