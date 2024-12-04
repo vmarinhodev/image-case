@@ -1,8 +1,6 @@
 # Project Overview
 
-This project is a web application that allows users to upload images to a supadatabase
-
-This project is a web application that allows users to upload images to a Supabase database. The application is built using Next.js and utilizes various libraries such as React Hook Form, and Zod
+This project is a web application that allows users to upload images to a Supabase database. The application is built using Next.js and utilizes various libraries such as React Hook Form, and Zod.
 
 ## Key Features
 
@@ -25,7 +23,6 @@ This project is a web application that allows users to upload images to a Supaba
 - Users can view their uploaded images on the dashboard
 - The application uses React Hook Form to handle form submissions and validation
 - The application uses Zod to validate schema for form data
-- The application uses Uppy to handle image uploading
 
 ```bash
 copy Imaginarium
